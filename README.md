@@ -40,28 +40,6 @@ export YOUTUBE_API_KEY="ваш_ключ"
 python3 youtube_migration_parser.py
 ```
 
-## Установка
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-Нужен ключ YouTube Data API v3:
-
-```bash
-export YOUTUBE_API_KEY="ваш_ключ"
-```
-
-## Запуск
-
-Базовый запуск:
-
-```bash
-python3 youtube_migration_parser.py
-```
-
 Режим под квоту `10 000`, когда нужно собрать максимум видео и комментариев:
 
 ```bash

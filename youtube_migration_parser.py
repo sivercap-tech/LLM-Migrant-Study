@@ -43,6 +43,10 @@ class YouTubeApiError(RuntimeError):
     pass
 
 
+class QuotaExceededError(YouTubeApiError):
+    pass
+
+
 @dataclass
 class VideoRecord:
     video_id: str
@@ -73,6 +77,8 @@ class CommentCursor:
     page_token: Optional[str] = None
     page_requests: int = 0
     exhausted: bool = False
+    replay_pages_remaining: int = 0
+    terminal_reason: str = ""
 
 
 @dataclass
@@ -229,6 +235,22 @@ def parse_args() -> argparse.Namespace:
         default="output",
         help="Папка для итоговых CSV/JSON-файлов.",
     )
+    parser.add_argument(
+        "--resume-from-dir",
+        default=None,
+        help="Продолжить сбор из существующей папки output.",
+    )
+    parser.add_argument(
+        "--exclude-video-ids-file",
+        default=None,
+        help="Файл со списком video_id для исключения, по одному на строку.",
+    )
+    parser.add_argument(
+        "--exclude-known-videos-from",
+        action="append",
+        dest="exclude_known_videos_from",
+        help="Папка output, из которой нужно исключить уже известные video_id. Можно указать несколько раз.",
+    )
     return parser.parse_args()
 
 
@@ -265,6 +287,41 @@ def load_queries(args: argparse.Namespace) -> List[str]:
     return list(dict.fromkeys(queries))
 
 
+def load_video_id_set(file_path: Optional[str]) -> set[str]:
+    if not file_path:
+        return set()
+    path = Path(file_path)
+    if not path.exists():
+        raise FileNotFoundError(f"Файл со списком video_id не найден: {path}")
+    ids: set[str] = set()
+    with path.open("r", encoding="utf-8") as file:
+        for line in file:
+            value = line.strip()
+            if value and not value.startswith("#"):
+                ids.add(value)
+    return ids
+
+
+def load_video_ids_from_output_dir(directory: str) -> set[str]:
+    path = Path(directory) / "youtube_videos.csv"
+    if not path.exists():
+        raise FileNotFoundError(f"Не найден файл со старыми видео: {path}")
+    ids: set[str] = set()
+    with path.open("r", encoding="utf-8", newline="") as file:
+        for row in csv.DictReader(file):
+            video_id = str(row.get("video_id", "")).strip()
+            if video_id:
+                ids.add(video_id)
+    return ids
+
+
+def load_excluded_video_ids(args: argparse.Namespace) -> set[str]:
+    excluded = set(load_video_id_set(args.exclude_video_ids_file))
+    for directory in args.exclude_known_videos_from or []:
+        excluded.update(load_video_ids_from_output_dir(directory))
+    return excluded
+
+
 def api_get(
     session: requests.Session,
     api_key: str,
@@ -287,6 +344,11 @@ def api_get(
             payload = response.json()
         except ValueError:
             payload = response.text
+        if isinstance(payload, dict):
+            errors = payload.get("error", {}).get("errors", [])
+            reasons = {str(item.get("reason", "")) for item in errors if isinstance(item, dict)}
+            if "quotaExceeded" in reasons:
+                raise QuotaExceededError(f"API error for {endpoint}: {payload}")
         raise YouTubeApiError(f"API error for {endpoint}: {payload}")
     return response.json()
 
@@ -357,19 +419,24 @@ def fetch_video_details(
     sleep_seconds: float,
 ) -> List[VideoRecord]:
     videos: List[VideoRecord] = []
+    quota_exceeded = False
     for group in chunked(video_ids, 50):
-        payload = api_get(
-            session,
-            api_key,
-            "videos",
-            {
-                "part": "snippet,statistics",
-                "id": ",".join(group),
-                "maxResults": len(group),
-            },
-            quota_tracker,
-            sleep_seconds,
-        )
+        try:
+            payload = api_get(
+                session,
+                api_key,
+                "videos",
+                {
+                    "part": "snippet,statistics",
+                    "id": ",".join(group),
+                    "maxResults": len(group),
+                },
+                quota_tracker,
+                sleep_seconds,
+            )
+        except QuotaExceededError:
+            quota_exceeded = True
+            break
         for item in payload.get("items", []):
             snippet = item.get("snippet", {})
             statistics = item.get("statistics", {})
@@ -387,7 +454,7 @@ def fetch_video_details(
                     url=f"https://www.youtube.com/watch?v={item['id']}",
                 )
             )
-    return videos
+    return videos, quota_exceeded
 
 
 def fetch_comment_threads_page(
@@ -402,7 +469,12 @@ def fetch_comment_threads_page(
 ) -> Dict[str, object]:
     remaining_for_video = per_video_limit - cursor.downloaded_count
     if remaining_for_video <= 0:
-        return {"rows": [], "next_page_token": None, "exhausted": True}
+        return {
+            "rows": [],
+            "next_page_token": None,
+            "exhausted": True,
+            "terminal_reason": "hit_run_limit",
+        }
 
     params: Dict[str, object] = {
         "part": "snippet,replies",
@@ -424,8 +496,21 @@ def fetch_comment_threads_page(
             sleep_seconds,
         )
     except YouTubeApiError as exc:
-        if "commentsDisabled" in str(exc):
-            return {"rows": [], "next_page_token": None, "exhausted": True}
+        error_text = str(exc)
+        if "commentsDisabled" in error_text:
+            return {
+                "rows": [],
+                "next_page_token": None,
+                "exhausted": True,
+                "terminal_reason": "comments_disabled",
+            }
+        if "videoNotFound" in error_text:
+            return {
+                "rows": [],
+                "next_page_token": None,
+                "exhausted": True,
+                "terminal_reason": "video_not_found",
+            }
         raise
 
     rows: List[Dict[str, object]] = []
@@ -470,6 +555,7 @@ def fetch_comment_threads_page(
         "rows": rows[:remaining_for_video],
         "next_page_token": next_page_token,
         "exhausted": not next_page_token or not items or len(rows) == 0,
+        "terminal_reason": "comments_exhausted" if (not next_page_token or not items or len(rows) == 0) else "",
     }
 
 
@@ -508,17 +594,25 @@ def summarise(
     comments: List[Dict[str, object]],
     videos: List[VideoRecord],
     query_stats: Dict[str, Dict[str, int]],
+    video_comment_stats: Optional[List[Dict[str, object]]] = None,
 ) -> Dict[str, object]:
     top_videos = sorted(
         videos,
         key=lambda video: (video.comment_count or 0, video.view_count or 0),
         reverse=True,
     )[:10]
+    terminal_reason_counts: Dict[str, int] = {}
+    if video_comment_stats:
+        for row in video_comment_stats:
+            reason = str(row.get("terminal_reason", "")).strip() or "unfinished"
+            terminal_reason_counts[reason] = terminal_reason_counts.get(reason, 0) + 1
+
     return {
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "video_count": len(videos),
         "comment_count": len(comments),
         "query_stats": query_stats,
+        "video_terminal_reason_counts": terminal_reason_counts,
         "top_videos": [
             {
                 "video_id": video.video_id,
@@ -606,6 +700,7 @@ def write_video_stats_csv(output_dir: Path, rows: List[Dict[str, object]]) -> Pa
         "estimated_downloadable_in_run",
         "downloaded_comment_count",
         "comment_page_requests",
+        "terminal_reason",
         "download_coverage_vs_api_reported",
         "download_coverage_vs_run_limit",
     ]
@@ -623,6 +718,13 @@ def write_summary_json(output_dir: Path, summary: Dict[str, object]) -> Path:
     return destination
 
 
+def write_resume_state_json(output_dir: Path, state: Dict[str, object]) -> Path:
+    destination = output_dir / "resume_state.json"
+    with destination.open("w", encoding="utf-8") as file:
+        json.dump(state, file, ensure_ascii=False, indent=2)
+    return destination
+
+
 def print_progress(message: str) -> None:
     print(message, file=sys.stderr)
 
@@ -632,6 +734,7 @@ def build_video_comment_stats(
     downloaded_count: int,
     page_requests: int,
     max_comments: int,
+    terminal_reason: str,
 ) -> Dict[str, object]:
     reported_total = video.comment_count or 0
     estimated_downloadable = min(reported_total, max_comments) if reported_total else 0
@@ -647,6 +750,7 @@ def build_video_comment_stats(
         "estimated_downloadable_in_run": estimated_downloadable,
         "downloaded_comment_count": downloaded_count,
         "comment_page_requests": page_requests,
+        "terminal_reason": terminal_reason,
         "download_coverage_vs_api_reported": (
             round(downloaded_count / reported_total, 4) if reported_total else 0.0
         ),
@@ -655,6 +759,186 @@ def build_video_comment_stats(
             if estimated_downloadable
             else 0.0
         ),
+    }
+
+
+def parse_bool(value: object) -> bool:
+    if isinstance(value, bool):
+        return value
+    return str(value).strip().lower() in {"1", "true", "yes", "y"}
+
+
+def load_videos_from_csv(path: Path) -> List[VideoRecord]:
+    rows = list(csv.DictReader(path.open(encoding="utf-8")))
+    videos: List[VideoRecord] = []
+    for row in rows:
+        videos.append(
+            VideoRecord(
+                video_id=row["video_id"],
+                title=row.get("title", ""),
+                channel_title=row.get("channel_title", ""),
+                published_at=row.get("published_at", ""),
+                description=row.get("description", ""),
+                queries=row.get("queries", ""),
+                comment_count=parse_int(row.get("comment_count")),
+                view_count=parse_int(row.get("view_count")),
+                like_count=parse_int(row.get("like_count")),
+                url=row.get("url", f"https://www.youtube.com/watch?v={row['video_id']}"),
+            )
+        )
+    return videos
+
+
+def load_existing_comment_ids(path: Path) -> set[str]:
+    if not path.exists():
+        return set()
+    ids: set[str] = set()
+    with path.open(encoding="utf-8", newline="") as file:
+        for row in csv.DictReader(file):
+            comment_id = row.get("comment_id", "")
+            if comment_id:
+                ids.add(comment_id)
+    return ids
+
+
+def load_existing_comments(path: Path) -> List[Dict[str, object]]:
+    if not path.exists():
+        return []
+    with path.open(encoding="utf-8", newline="") as file:
+        return list(csv.DictReader(file))
+
+
+def filter_videos(videos: List[VideoRecord], excluded_video_ids: set[str]) -> List[VideoRecord]:
+    if not excluded_video_ids:
+        return videos
+    return [video for video in videos if video.video_id not in excluded_video_ids]
+
+
+def filter_comment_rows(rows: List[Dict[str, object]], excluded_video_ids: set[str]) -> List[Dict[str, object]]:
+    if not excluded_video_ids:
+        return rows
+    return [row for row in rows if str(row.get("video_id", "")) not in excluded_video_ids]
+
+
+def load_resume_inputs(
+    resume_dir: Path,
+    max_comments_per_video: int,
+    excluded_video_ids: set[str],
+) -> Dict[str, object]:
+    videos_path = resume_dir / "youtube_videos.csv"
+    stats_path = resume_dir / "video_comment_stats.csv"
+    comments_path = resume_dir / "youtube_comments.csv"
+    state_path = resume_dir / "resume_state.json"
+    if not videos_path.exists() or not stats_path.exists():
+        raise FileNotFoundError(
+            f"Для resume нужны {videos_path.name} и {stats_path.name} в {resume_dir}."
+        )
+
+    videos = filter_videos(load_videos_from_csv(videos_path), excluded_video_ids)
+    stats_rows = list(csv.DictReader(stats_path.open(encoding="utf-8")))
+    stats_by_video = {
+        row["video_id"]: row
+        for row in stats_rows
+        if row["video_id"] not in excluded_video_ids
+    }
+    comment_ids = {
+        comment_id
+        for comment_id in load_existing_comment_ids(comments_path)
+    }
+
+    state_by_video: Dict[str, Dict[str, object]] = {}
+    if state_path.exists():
+        payload = json.loads(state_path.read_text(encoding="utf-8"))
+        for row in payload.get("videos", []):
+            video_id = str(row.get("video_id", ""))
+            if video_id not in excluded_video_ids:
+                state_by_video[video_id] = row
+
+    cursors: List[CommentCursor] = []
+    for video in videos:
+        stats = stats_by_video.get(video.video_id, {})
+        downloaded_count = parse_int(stats.get("downloaded_comment_count")) or 0
+        page_requests = parse_int(stats.get("comment_page_requests")) or 0
+        state_row = state_by_video.get(video.video_id, {})
+        next_page_token = state_row.get("next_page_token")
+        exhausted = parse_bool(state_row.get("exhausted", False))
+        replay_pages_remaining = 0
+        terminal_reason = str(state_row.get("terminal_reason", ""))
+
+        # Если в прошлом запуске мы остановились только из-за нашего лимита,
+        # а сейчас лимит подняли, нужно снова открыть видео для догрузки.
+        if terminal_reason == "hit_run_limit" and downloaded_count < max_comments_per_video:
+            exhausted = False
+            terminal_reason = ""
+
+        if not state_row and downloaded_count > 0 and downloaded_count < max_comments_per_video:
+            replay_pages_remaining = page_requests
+            next_page_token = None
+
+        if downloaded_count >= max_comments_per_video:
+            exhausted = True
+            terminal_reason = "hit_run_limit"
+
+        cursors.append(
+            CommentCursor(
+                video=video,
+                downloaded_count=downloaded_count,
+                page_token=str(next_page_token) if next_page_token else None,
+                page_requests=page_requests,
+                exhausted=exhausted,
+                replay_pages_remaining=replay_pages_remaining,
+                terminal_reason=terminal_reason,
+            )
+        )
+
+    return {
+        "videos": videos,
+        "cursors": cursors,
+        "existing_comment_ids": comment_ids,
+        "has_resume_state": state_path.exists(),
+        "resume_dir": resume_dir,
+    }
+
+
+def save_comments_csv(output_dir: Path, comments: List[Dict[str, object]]) -> Path:
+    return write_comments_csv(output_dir, comments)
+
+
+def save_full_state(
+    output_dir: Path,
+    summary: Dict[str, object],
+    videos: List[VideoRecord],
+    comments: List[Dict[str, object]],
+    video_comment_stats: List[Dict[str, object]],
+    cursors: List[CommentCursor],
+) -> Dict[str, Path]:
+    videos_path = write_videos_csv(output_dir, videos)
+    comments_path = save_comments_csv(output_dir, comments)
+    stats_path = write_video_stats_csv(output_dir, video_comment_stats)
+    summary_path = write_summary_json(output_dir, summary)
+    resume_state_path = write_resume_state_json(
+        output_dir,
+        {
+            "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+            "videos": [
+                {
+                    "video_id": cursor.video.video_id,
+                    "downloaded_count": cursor.downloaded_count,
+                    "page_requests": cursor.page_requests,
+                    "next_page_token": cursor.page_token,
+                    "exhausted": cursor.exhausted,
+                    "terminal_reason": cursor.terminal_reason,
+                }
+                for cursor in cursors
+            ],
+        },
+    )
+    return {
+        "videos_path": videos_path,
+        "comments_path": comments_path,
+        "stats_path": stats_path,
+        "summary_path": summary_path,
+        "resume_state_path": resume_state_path,
     }
 
 
@@ -680,6 +964,7 @@ def collect_video_ids(
     quota_tracker: QuotaTracker,
     search_quota_share: float,
     sleep_seconds: float,
+    excluded_video_ids: set[str],
 ) -> Dict[str, object]:
     query_unique_ids: Dict[str, List[str]] = {query: [] for query in queries}
     query_seen_ids: Dict[str, set[str]] = {query: set() for query in queries}
@@ -694,6 +979,7 @@ def collect_video_ids(
     video_query_map: Dict[str, List[str]] = {}
     all_video_ids: List[str] = []
     duplicate_video_hits = 0
+    excluded_video_hits = 0
     cursors = [
         SearchCursor(query=query, order=order)
         for query in queries
@@ -702,6 +988,7 @@ def collect_video_ids(
 
     max_search_units = search_budget_limit(quota_tracker, search_quota_share, len(queries))
     search_units_started = quota_tracker.units_used
+    quota_exceeded = False
 
     while True:
         progress_made = False
@@ -719,23 +1006,30 @@ def collect_video_ids(
             if (quota_tracker.units_used - search_units_started) >= max_search_units:
                 break
 
-            payload = search_videos_page(
-                session=session,
-                api_key=api_key,
-                cursor=cursor,
-                region_code=region_code,
-                relevance_language=relevance_language,
-                published_after=published_after,
-                published_before=published_before,
-                quota_tracker=quota_tracker,
-                sleep_seconds=sleep_seconds,
-            )
+            try:
+                payload = search_videos_page(
+                    session=session,
+                    api_key=api_key,
+                    cursor=cursor,
+                    region_code=region_code,
+                    relevance_language=relevance_language,
+                    published_after=published_after,
+                    published_before=published_before,
+                    quota_tracker=quota_tracker,
+                    sleep_seconds=sleep_seconds,
+                )
+            except QuotaExceededError:
+                quota_exceeded = True
+                break
             cursor.pages_fetched += 1
             query_stats[cursor.query]["search_pages"] += 1
             progress_made = True
 
             new_unique_for_query = 0
             for video_id in payload["video_ids"]:
+                if video_id in excluded_video_ids:
+                    excluded_video_hits += 1
+                    continue
                 if video_id in query_seen_ids[cursor.query]:
                     query_stats[cursor.query]["duplicate_hits"] += 1
                     duplicate_video_hits += 1
@@ -765,6 +1059,8 @@ def collect_video_ids(
 
         if not progress_made:
             break
+        if quota_exceeded:
+            break
         if not quota_tracker.can_afford("search"):
             break
         if (quota_tracker.units_used - search_units_started) >= max_search_units:
@@ -775,7 +1071,9 @@ def collect_video_ids(
         "video_query_map": video_query_map,
         "query_stats": query_stats,
         "duplicate_video_hits": duplicate_video_hits,
+        "excluded_video_hits": excluded_video_hits,
         "search_budget_units": max_search_units,
+        "quota_exceeded": quota_exceeded,
     }
 
 
@@ -788,16 +1086,28 @@ def download_comments_round_robin(
     include_replies: bool,
     quota_tracker: QuotaTracker,
     sleep_seconds: float,
+    initial_cursors: Optional[List[CommentCursor]] = None,
+    existing_comment_ids: Optional[set[str]] = None,
 ) -> Dict[str, object]:
-    cursors = [
-        CommentCursor(video=video)
-        for video in videos
-        if (video.comment_count or 0) > 0
-    ]
-    all_comments: List[Dict[str, object]] = []
+    cursor_map: Dict[str, CommentCursor] = {}
+    if initial_cursors:
+        cursor_map = {cursor.video.video_id: cursor for cursor in initial_cursors}
+    cursors = []
+    for video in videos:
+        cursor = cursor_map.get(video.video_id)
+        if cursor is None:
+            cursor = CommentCursor(video=video)
+        else:
+            cursor.video = video
+        if (video.comment_count or 0) > 0:
+            cursors.append(cursor)
+
+    known_comment_ids = existing_comment_ids or set()
+    new_comments: List[Dict[str, object]] = []
     stats_rows: List[Dict[str, object]] = []
     processed_ids: set[str] = set()
     round_number = 0
+    quota_exceeded = False
 
     while True:
         active_cursors = [
@@ -818,25 +1128,56 @@ def download_comments_round_robin(
         for cursor in active_cursors:
             if not quota_tracker.can_afford("commentThreads"):
                 break
-            payload = fetch_comment_threads_page(
-                session=session,
-                api_key=api_key,
-                cursor=cursor,
-                comment_order=comment_order,
-                include_replies=include_replies,
-                per_video_limit=max_comments_per_video,
-                quota_tracker=quota_tracker,
-                sleep_seconds=sleep_seconds,
-            )
+            try:
+                payload = fetch_comment_threads_page(
+                    session=session,
+                    api_key=api_key,
+                    cursor=cursor,
+                    comment_order=comment_order,
+                    include_replies=include_replies,
+                    per_video_limit=max_comments_per_video,
+                    quota_tracker=quota_tracker,
+                    sleep_seconds=sleep_seconds,
+                )
+            except QuotaExceededError:
+                quota_exceeded = True
+                break
             cursor.page_requests += 1
             rows = payload["rows"]
-            cursor.downloaded_count += len(rows)
+            if cursor.replay_pages_remaining > 0:
+                cursor.replay_pages_remaining -= 1
+                cursor.page_token = payload["next_page_token"]
+                cursor.exhausted = payload["exhausted"] and cursor.replay_pages_remaining == 0
+                if cursor.exhausted and payload.get("terminal_reason"):
+                    cursor.terminal_reason = str(payload["terminal_reason"])
+                continue
+
+            unique_rows = []
+            for row in rows:
+                comment_id = str(row.get("comment_id", ""))
+                if comment_id and comment_id in known_comment_ids:
+                    continue
+                if comment_id:
+                    known_comment_ids.add(comment_id)
+                unique_rows.append(row)
+
+            cursor.downloaded_count += len(unique_rows)
             cursor.page_token = payload["next_page_token"]
-            cursor.exhausted = payload["exhausted"] or cursor.downloaded_count >= max_comments_per_video
-            all_comments.extend(rows)
-            round_downloaded += len(rows)
+            cursor.exhausted = (
+                (payload["exhausted"] and cursor.replay_pages_remaining == 0)
+                or cursor.downloaded_count >= max_comments_per_video
+            )
+            if cursor.downloaded_count >= max_comments_per_video:
+                cursor.terminal_reason = "hit_run_limit"
+            elif payload.get("terminal_reason"):
+                cursor.terminal_reason = str(payload["terminal_reason"])
+            new_comments.extend(unique_rows)
+            round_downloaded += len(unique_rows)
 
         if round_downloaded == 0:
+            if not any(cursor.replay_pages_remaining > 0 for cursor in active_cursors):
+                break
+        if quota_exceeded:
             break
 
     for cursor in cursors:
@@ -846,6 +1187,7 @@ def download_comments_round_robin(
                 downloaded_count=cursor.downloaded_count,
                 page_requests=cursor.page_requests,
                 max_comments=max_comments_per_video,
+                terminal_reason=cursor.terminal_reason,
             )
         )
         processed_ids.add(cursor.video.video_id)
@@ -858,13 +1200,16 @@ def download_comments_round_robin(
                     downloaded_count=0,
                     page_requests=0,
                     max_comments=max_comments_per_video,
+                    terminal_reason="",
                 )
             )
 
     return {
-        "comments": all_comments,
+        "comments": new_comments,
         "video_comment_stats": stats_rows,
         "rounds": round_number,
+        "cursors": cursors,
+        "quota_exceeded": quota_exceeded,
     }
 
 
@@ -878,14 +1223,10 @@ def main() -> int:
         )
         return 1
 
-    try:
-        queries = load_queries(args)
-    except FileNotFoundError as exc:
-        print(str(exc), file=sys.stderr)
-        return 1
-
-    search_orders = args.search_orders or list(DEFAULT_SEARCH_ORDERS)
-    output_dir = ensure_output_dir(args.output_dir)
+    if args.resume_from_dir and args.output_dir == "output":
+        output_dir = ensure_output_dir(args.resume_from_dir)
+    else:
+        output_dir = ensure_output_dir(args.output_dir)
     session = make_session()
     quota_tracker = QuotaTracker(
         daily_limit=args.daily_quota_limit,
@@ -893,92 +1234,179 @@ def main() -> int:
     )
 
     try:
-        print_progress(
-            f"[start] queries={len(queries)} | search_orders={','.join(search_orders)} | "
-            f"usable_quota={quota_tracker.usable_limit}"
-        )
+        excluded_video_ids = load_excluded_video_ids(args)
+        if args.resume_from_dir:
+            resume_dir = Path(args.resume_from_dir)
+            resume_inputs = load_resume_inputs(
+                resume_dir=resume_dir,
+                max_comments_per_video=args.max_comments_per_video,
+                excluded_video_ids=excluded_video_ids,
+            )
+            videos = list(resume_inputs["videos"])
+            existing_comments = filter_comment_rows(
+                load_existing_comments(resume_dir / "youtube_comments.csv"),
+                excluded_video_ids,
+            )
+            initial_comment_count = len(existing_comments)
+            replaying = sum(
+                1 for cursor in resume_inputs["cursors"] if cursor.replay_pages_remaining > 0
+            )
+            print_progress(
+                f"[resume] dir={resume_dir} | videos={len(videos)} | "
+                f"existing_comments={initial_comment_count} | replay_needed={replaying}"
+            )
 
-        search_result = collect_video_ids(
-            session=session,
-            api_key=args.api_key,
-            queries=queries,
-            search_orders=search_orders,
-            max_videos_per_query=args.max_videos_per_query,
-            max_search_pages_per_query=args.max_search_pages_per_query,
-            region_code=args.region_code,
-            relevance_language=args.relevance_language,
-            published_after=args.published_after,
-            published_before=args.published_before,
-            quota_tracker=quota_tracker,
-            search_quota_share=args.search_quota_share,
-            sleep_seconds=args.sleep,
-        )
+            comments_result = download_comments_round_robin(
+                session=session,
+                api_key=args.api_key,
+                videos=videos,
+                max_comments_per_video=args.max_comments_per_video,
+                comment_order=args.comment_order,
+                include_replies=args.include_replies,
+                quota_tracker=quota_tracker,
+                sleep_seconds=args.sleep,
+                initial_cursors=resume_inputs["cursors"],
+                existing_comment_ids=resume_inputs["existing_comment_ids"],
+            )
+            merged_comments = existing_comments + comments_result["comments"]
+            query_stats = {}
+            duplicate_video_hits = 0
+            excluded_video_hits = len(excluded_video_ids)
+            search_strategy = {
+                "mode": "resume",
+                "resume_from_dir": str(resume_dir),
+                "comment_order": args.comment_order,
+                "max_comments_per_video": args.max_comments_per_video,
+                "comment_rounds_completed": comments_result["rounds"],
+                "resume_state_available": resume_inputs["has_resume_state"],
+                "fallback_replay_videos": replaying,
+                "excluded_video_ids_count": len(excluded_video_ids),
+            }
+        else:
+            try:
+                queries = load_queries(args)
+            except FileNotFoundError as exc:
+                print(str(exc), file=sys.stderr)
+                return 1
 
-        unique_video_ids = search_result["all_video_ids"]
-        if not unique_video_ids:
-            print("По заданным запросам не найдено видео.", file=sys.stderr)
-            return 1
+            search_orders = args.search_orders or list(DEFAULT_SEARCH_ORDERS)
+            print_progress(
+                f"[start] queries={len(queries)} | search_orders={','.join(search_orders)} | "
+                f"usable_quota={quota_tracker.usable_limit}"
+            )
 
-        videos = fetch_video_details(
-            session=session,
-            api_key=args.api_key,
-            video_ids=unique_video_ids,
-            query_map=search_result["video_query_map"],
-            quota_tracker=quota_tracker,
-            sleep_seconds=args.sleep,
-        )
-        videos.sort(
-            key=lambda video: (video.comment_count or 0, video.view_count or 0),
-            reverse=True,
-        )
-        print_progress(
-            f"[videos] уникальных видео={len(videos)} | "
-            f"повторов пропущено={search_result['duplicate_video_hits']}"
-        )
+            search_result = collect_video_ids(
+                session=session,
+                api_key=args.api_key,
+                queries=queries,
+                search_orders=search_orders,
+                max_videos_per_query=args.max_videos_per_query,
+                max_search_pages_per_query=args.max_search_pages_per_query,
+                region_code=args.region_code,
+                relevance_language=args.relevance_language,
+                published_after=args.published_after,
+                published_before=args.published_before,
+                quota_tracker=quota_tracker,
+                search_quota_share=args.search_quota_share,
+                sleep_seconds=args.sleep,
+                excluded_video_ids=excluded_video_ids,
+            )
 
-        comments_result = download_comments_round_robin(
-            session=session,
-            api_key=args.api_key,
-            videos=videos,
-            max_comments_per_video=args.max_comments_per_video,
-            comment_order=args.comment_order,
-            include_replies=args.include_replies,
-            quota_tracker=quota_tracker,
-            sleep_seconds=args.sleep,
-        )
+            unique_video_ids = search_result["all_video_ids"]
+            if not unique_video_ids:
+                print("По заданным запросам не найдено видео.", file=sys.stderr)
+                return 1
+
+            videos, videos_quota_exceeded = fetch_video_details(
+                session=session,
+                api_key=args.api_key,
+                video_ids=unique_video_ids,
+                query_map=search_result["video_query_map"],
+                quota_tracker=quota_tracker,
+                sleep_seconds=args.sleep,
+            )
+            videos.sort(
+                key=lambda video: (video.comment_count or 0, video.view_count or 0),
+                reverse=True,
+            )
+            print_progress(
+                f"[videos] уникальных видео={len(videos)} | "
+                f"повторов пропущено={search_result['duplicate_video_hits']}"
+            )
+
+            comments_result = download_comments_round_robin(
+                session=session,
+                api_key=args.api_key,
+                videos=videos,
+                max_comments_per_video=args.max_comments_per_video,
+                comment_order=args.comment_order,
+                include_replies=args.include_replies,
+                quota_tracker=quota_tracker,
+                sleep_seconds=args.sleep,
+            )
+            merged_comments = comments_result["comments"]
+            query_stats = search_result["query_stats"]
+            duplicate_video_hits = search_result["duplicate_video_hits"]
+            excluded_video_hits = search_result["excluded_video_hits"]
+            search_strategy = {
+                "mode": "fresh",
+                "search_orders": search_orders,
+                "max_videos_per_query": args.max_videos_per_query,
+                "max_search_pages_per_query": args.max_search_pages_per_query,
+                "search_quota_share": args.search_quota_share,
+                "comment_order": args.comment_order,
+                "max_comments_per_video": args.max_comments_per_video,
+                "comment_rounds_completed": comments_result["rounds"],
+                "search_budget_units": search_result["search_budget_units"],
+                "excluded_video_ids_count": len(excluded_video_ids),
+            }
+            search_strategy["stopped_due_to_quota"] = (
+                search_result["quota_exceeded"] or videos_quota_exceeded
+            )
 
         summary = summarise(
-            comments=comments_result["comments"],
+            comments=merged_comments,
             videos=videos,
-            query_stats=search_result["query_stats"],
+            query_stats=query_stats,
+            video_comment_stats=comments_result["video_comment_stats"],
         )
-        summary["search_strategy"] = {
-            "search_orders": search_orders,
-            "max_videos_per_query": args.max_videos_per_query,
-            "max_search_pages_per_query": args.max_search_pages_per_query,
-            "search_quota_share": args.search_quota_share,
-            "comment_order": args.comment_order,
-            "max_comments_per_video": args.max_comments_per_video,
-            "comment_rounds_completed": comments_result["rounds"],
-            "search_budget_units": search_result["search_budget_units"],
-        }
-        summary["duplicate_video_hits_skipped"] = search_result["duplicate_video_hits"]
+        summary["search_strategy"] = search_strategy
+        summary["duplicate_video_hits_skipped"] = duplicate_video_hits
+        summary["excluded_video_ids_count"] = len(excluded_video_ids)
+        summary["excluded_video_hits_skipped"] = excluded_video_hits
         summary["quota_estimate"] = quota_tracker.as_dict()
+        summary["new_comments_downloaded_this_run"] = len(comments_result["comments"])
+        summary["stopped_due_to_quota"] = (
+            comments_result.get("quota_exceeded", False)
+            or search_strategy.get("stopped_due_to_quota", False)
+        )
+        if args.resume_from_dir:
+            summary["existing_comments_before_resume"] = initial_comment_count
 
-        videos_path = write_videos_csv(output_dir, videos)
-        comments_path = write_comments_csv(output_dir, comments_result["comments"])
-        stats_path = write_video_stats_csv(output_dir, comments_result["video_comment_stats"])
-        summary_path = write_summary_json(output_dir, summary)
+        saved_paths = save_full_state(
+            output_dir=output_dir,
+            summary=summary,
+            videos=videos,
+            comments=merged_comments,
+            video_comment_stats=comments_result["video_comment_stats"],
+            cursors=comments_result["cursors"],
+        )
 
         print(json.dumps(summary, ensure_ascii=False, indent=2))
-        print_progress(f"[saved] {videos_path}")
-        print_progress(f"[saved] {comments_path}")
-        print_progress(f"[saved] {stats_path}")
-        print_progress(f"[saved] {summary_path}")
+        print_progress(f"[saved] {saved_paths['videos_path']}")
+        print_progress(f"[saved] {saved_paths['comments_path']}")
+        print_progress(f"[saved] {saved_paths['stats_path']}")
+        print_progress(f"[saved] {saved_paths['summary_path']}")
+        print_progress(f"[saved] {saved_paths['resume_state_path']}")
+        if summary["stopped_due_to_quota"]:
+            print_progress("[stop] остановка по quotaExceeded, частичные результаты сохранены")
         return 0
     except KeyboardInterrupt:
         print("Остановлено пользователем.", file=sys.stderr)
         return 130
+    except FileNotFoundError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
     except (requests.RequestException, YouTubeApiError) as exc:
         print(f"Ошибка: {exc}", file=sys.stderr)
         return 1

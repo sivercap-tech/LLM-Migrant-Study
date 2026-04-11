@@ -56,6 +56,18 @@ python3 youtube_migration_parser.py \
   --output-dir output_2023_2026
 ```
 
+Продолжение уже собранного набора видео после сброса дневной квоты:
+
+```bash
+python3 youtube_migration_parser.py \
+  --resume-from-dir output_2023_2026 \
+  --exclude-video-ids-file excluded_video_ids.txt \
+  --max-comments-per-video 1000 \
+  --quota-reserve 150
+```
+
+Если прошлый запуск еще не сохранял `resume_state.json`, скрипт сможет продолжить и без него, но ему придется частично повторно пройти уже скачанные страницы комментариев, чтобы добраться до следующей страницы. После этого запуска `resume_state.json` появится, и дальнейшие продолжения будут заметно эффективнее.
+
 Пример `queries.txt`:
 
 ```text
@@ -88,6 +100,10 @@ python3 youtube_migration_parser.py \
 - `--max-videos-per-query` — сколько уникальных видео собирать по каждому запросу;
 - `--max-search-pages-per-query` — насколько глубоко уходить в выдачу каждого запроса;
 - `--max-comments-per-video` — потолок комментариев на одно видео.
+- `--resume-from-dir` — продолжить скачивание комментариев по уже найденному списку видео без нового поиска.
+- `--exclude-video-ids-file` — файл со списком `video_id`, которые нужно исключить и больше не парсить.
+- `--exclude-known-videos-from` — папка с прошлым `output`, из которой нужно автоматически исключить все уже найденные `video_id`.
+
 
 ## Результаты
 
@@ -112,15 +128,44 @@ python3 youtube_migration_parser.py \
 - `api_reported_comment_count` — сколько комментариев по видео сообщает YouTube API;
 - `estimated_downloadable_in_run` — сколько комментариев можно было скачать в рамках текущего лимита `--max-comments-per-video`;
 - `downloaded_comment_count` — сколько комментариев реально сохранено;
+- `comment_page_requests` — сколько раз вызывался `commentThreads.list` для этого видео;
 - `download_coverage_vs_api_reported` — доля скачанного от общего числа, которое сообщает API.
 
 В `summary.json` также есть:
 
 - `duplicate_video_hits_skipped` — сколько повторных роликов было отброшено между запросами;
+- `excluded_video_ids_count` — сколько `video_id` было подано в стоп-лист;
+- `excluded_video_hits_skipped` — сколько попаданий в стоп-лист было отфильтровано;
 - `quota_estimate` — оценка потраченных и оставшихся quota units;
 - `query_stats` — статистика по каждому запросу;
 - `search_strategy` — параметры, с которыми был запущен сбор.
+- `new_comments_downloaded_this_run` — сколько новых комментариев скачано именно в текущем запуске.
 
+Формат `excluded_video_ids.txt`:
+
+```text
+_SvvKcX3FVo
+rRMODBZTvoE
+cYrq3GnKjkE
+```
+
+Пример поиска только новых видео, не включая уже собранный корпус:
+
+```bash
+python3 youtube_migration_parser.py \
+  --query-file queries.txt \
+  --exclude-video-ids-file excluded_video_ids.txt \
+  --exclude-known-videos-from output_2023_2026 \
+  --published-after "2020-01-01T00:00:00Z" \
+  --search-order relevance \
+  --search-order date \
+  --max-videos-per-query 200 \
+  --max-search-pages-per-query 1 \
+  --max-comments-per-video 1 \
+  --search-quota-share 0.24 \
+  --quota-reserve 150 \
+  --output-dir output_2020_2026_search_only
+```
 
 ## Важно
 

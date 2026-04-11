@@ -1,0 +1,371 @@
+{
+  "generated_at_utc": "2026-04-11T20:57:30.374979+00:00",
+  "base_dir": "/Users/sanzarajtzanov/Downloads/VKR/2025 год ПРОЕКТЫ/LLM/llm paser",
+  "directories": [
+    "output_2020_2026_search_only",
+    "output_2023_2026"
+  ],
+  "datasets": [
+    {
+      "directory": "output_2020_2026_search_only",
+      "summary": {},
+      "video_count": 0,
+      "comment_count": 0,
+      "coverage": {
+        "api_reported_comment_count_total": 0,
+        "downloaded_comment_count_total": 0
+      },
+      "top_videos": [],
+      "query_rows": [],
+      "update_token": "0"
+    },
+    {
+      "directory": "output_2023_2026",
+      "summary": {
+        "generated_at_utc": "2026-04-11T20:07:50.783565+00:00",
+        "video_count": 852,
+        "comment_count": 647172,
+        "query_stats": {},
+        "video_terminal_reason_counts": {
+          "comments_exhausted": 713,
+          "video_not_found": 13,
+          "unfinished": 126
+        },
+        "top_videos": [
+          {
+            "video_id": "_SvvKcX3FVo",
+            "title": "Бастрыкин. Мигранты, зарплаты. Мигранты в России #мигранты #мигрантывроссии #бастрыкин #политика",
+            "channel_title": "МОЛОТ И ПРАВДА",
+            "published_at": "2024-06-28T13:59:16Z",
+            "comment_count": 43910,
+            "view_count": 8231719,
+            "queries": "трудовые мигранты в россии",
+            "url": "https://www.youtube.com/watch?v=_SvvKcX3FVo"
+          },
+          {
+            "video_id": "rRMODBZTvoE",
+            "title": "В Госдуме РФ призвали не брать на работу иноязычников #новости #узбекистан #россия",
+            "channel_title": "NOVA24",
+            "published_at": "2023-11-16T13:16:08Z",
+            "comment_count": 32228,
+            "view_count": 5386676,
+            "queries": "мнение россиян о мигрантах | что думают о мигрантах в россии | проблема мигрантов в россии | конфликты с мигрантами россия | мигранты и работа в россии",
+            "url": "https://www.youtube.com/watch?v=rRMODBZTvoE"
+          },
+          {
+            "video_id": "cYrq3GnKjkE",
+            "title": "Мигранты. Мигранты в России. Андрей Клишас #мигранты #мигрантывроссии #политика #россия #русские",
+            "channel_title": "МОЛОТ И ПРАВДА",
+            "published_at": "2024-06-28T09:10:01Z",
+            "comment_count": 30679,
+            "view_count": 3736911,
+            "queries": "трудовые мигранты в россии",
+            "url": "https://www.youtube.com/watch?v=cYrq3GnKjkE"
+          },
+          {
+            "video_id": "jr-GQX0mo28",
+            "title": "Угроза от мигрантов #шортс #мигранты #россия",
+            "channel_title": "Матрёшка и Медведь",
+            "published_at": "2024-04-24T14:56:30Z",
+            "comment_count": 26941,
+            "view_count": 4213361,
+            "queries": "мигранты в россии | отношение к мигрантам в россии | как россияне относятся к мигрантам | образ мигрантов в россии | что думают о мигрантах в россии | мигранты глазами россиян | конфликты с мигрантами россия | преступления мигрантов россия | депортация мигрантов россия | мигранты и закон в россии | мигранты и работа в россии | трудовые мигранты в россии",
+            "url": "https://www.youtube.com/watch?v=jr-GQX0mo28"
+          },
+          {
+            "video_id": "5PHSvzNaD9s",
+            "title": "«Здесь больше мигрантов, чем русских»: как живут подмосковные Котельники",
+            "channel_title": "Редакция",
+            "published_at": "2025-04-24T12:56:36Z",
+            "comment_count": 21792,
+            "view_count": 2122595,
+            "queries": "мигранты в россии | миграция в россии | отношение к мигрантам в россии | как россияне относятся к мигрантам | мигранты глазами россиян | проблема мигрантов в россии | преступления мигрантов россия | мигранты и преступность в россии | мигранты и работа в россии",
+            "url": "https://www.youtube.com/watch?v=5PHSvzNaD9s"
+          },
+          {
+            "video_id": "HVxi2c9ReKE",
+            "title": "Граждане Узбекистана покидают Россию",
+            "channel_title": "Продолжение следует",
+            "published_at": "2023-09-01T05:00:14Z",
+            "comment_count": 20132,
+            "view_count": 4453994,
+            "queries": "как россияне относятся к мигрантам",
+            "url": "https://www.youtube.com/watch?v=HVxi2c9ReKE"
+          },
+          {
+            "video_id": "oTaWekG-I8E",
+            "title": "Почему трудовые мигранты уезжают из Москвы",
+            "channel_title": "Настоящее Время. Док",
+            "published_at": "2024-04-21T15:00:45Z",
+            "comment_count": 17481,
+            "view_count": 3434006,
+            "queries": "трудовые мигранты в россии",
+            "url": "https://www.youtube.com/watch?v=oTaWekG-I8E"
+          },
+          {
+            "video_id": "5j2Kw4meheM",
+            "title": "Россия пропадает без мигрантов #мигранты #россия #мусор #безработица",
+            "channel_title": "Интересные видео",
+            "published_at": "2024-07-11T21:07:43Z",
+            "comment_count": 16245,
+            "view_count": 2080782,
+            "queries": "конфликты с мигрантами россия",
+            "url": "https://www.youtube.com/watch?v=5j2Kw4meheM"
+          },
+          {
+            "video_id": "6QiUoN1Ot_U",
+            "title": "Почему Россия не может смириться с мигрантами / Rasstriga.doc",
+            "channel_title": "Rasstriga_doc",
+            "published_at": "2024-01-04T09:15:59Z",
+            "comment_count": 15181,
+            "view_count": 728118,
+            "queries": "проблема мигрантов в россии",
+            "url": "https://www.youtube.com/watch?v=6QiUoN1Ot_U"
+          },
+          {
+            "video_id": "75ynAhvrUiE",
+            "title": "БТР на рейде против мигрантов",
+            "channel_title": "Настоящее Время. Азия",
+            "published_at": "2024-07-26T09:30:02Z",
+            "comment_count": 15057,
+            "view_count": 8226504,
+            "queries": "преступления мигрантов россия",
+            "url": "https://www.youtube.com/watch?v=75ynAhvrUiE"
+          }
+        ],
+        "search_strategy": {
+          "mode": "resume",
+          "resume_from_dir": "output_2023_2026",
+          "comment_order": "time",
+          "max_comments_per_video": 500000,
+          "comment_rounds_completed": 0,
+          "resume_state_available": true,
+          "fallback_replay_videos": 0,
+          "excluded_video_ids_count": 158
+        },
+        "duplicate_video_hits_skipped": 0,
+        "excluded_video_ids_count": 158,
+        "excluded_video_hits_skipped": 158,
+        "quota_estimate": {
+          "daily_limit": 10000,
+          "reserve": 150,
+          "usable_limit": 9850,
+          "units_used_estimate": 0,
+          "units_remaining_estimate": 10000,
+          "units_remaining_before_reserve_estimate": 9850,
+          "endpoint_units_estimate": {},
+          "endpoint_request_count": {},
+          "cost_reference": {
+            "search": 100,
+            "videos": 1,
+            "commentThreads": 1
+          }
+        },
+        "new_comments_downloaded_this_run": 0,
+        "existing_comments_before_resume": 647172
+      },
+      "video_count": 852,
+      "comment_count": 647172,
+      "coverage": {
+        "api_reported_comment_count_total": 985387,
+        "downloaded_comment_count_total": 647172
+      },
+      "top_videos": [
+        {
+          "video_id": "_SvvKcX3FVo",
+          "video_url": "https://www.youtube.com/watch?v=_SvvKcX3FVo",
+          "video_title": "Бастрыкин. Мигранты, зарплаты. Мигранты в России #мигранты #мигрантывроссии #бастрыкин #политика",
+          "video_channel": "МОЛОТ И ПРАВДА",
+          "video_published_at": "2024-06-28T13:59:16Z",
+          "video_queries": "трудовые мигранты в россии",
+          "api_reported_comment_count": "43910",
+          "max_comments_requested": "500000",
+          "estimated_downloadable_in_run": "43910",
+          "downloaded_comment_count": "35441",
+          "comment_page_requests": "361",
+          "terminal_reason": "comments_exhausted",
+          "download_coverage_vs_api_reported": "0.8071",
+          "download_coverage_vs_run_limit": "0.8071"
+        },
+        {
+          "video_id": "rRMODBZTvoE",
+          "video_url": "https://www.youtube.com/watch?v=rRMODBZTvoE",
+          "video_title": "В Госдуме РФ призвали не брать на работу иноязычников #новости #узбекистан #россия",
+          "video_channel": "NOVA24",
+          "video_published_at": "2023-11-16T13:16:08Z",
+          "video_queries": "мнение россиян о мигрантах | что думают о мигрантах в россии | проблема мигрантов в россии | конфликты с мигрантами россия | мигранты и работа в россии",
+          "api_reported_comment_count": "32228",
+          "max_comments_requested": "500000",
+          "estimated_downloadable_in_run": "32228",
+          "downloaded_comment_count": "16711",
+          "comment_page_requests": "174",
+          "terminal_reason": "comments_exhausted",
+          "download_coverage_vs_api_reported": "0.5185",
+          "download_coverage_vs_run_limit": "0.5185"
+        },
+        {
+          "video_id": "cYrq3GnKjkE",
+          "video_url": "https://www.youtube.com/watch?v=cYrq3GnKjkE",
+          "video_title": "Мигранты. Мигранты в России. Андрей Клишас #мигранты #мигрантывроссии #политика #россия #русские",
+          "video_channel": "МОЛОТ И ПРАВДА",
+          "video_published_at": "2024-06-28T09:10:01Z",
+          "video_queries": "трудовые мигранты в россии",
+          "api_reported_comment_count": "30679",
+          "max_comments_requested": "500000",
+          "estimated_downloadable_in_run": "30679",
+          "downloaded_comment_count": "22655",
+          "comment_page_requests": "232",
+          "terminal_reason": "comments_exhausted",
+          "download_coverage_vs_api_reported": "0.7385",
+          "download_coverage_vs_run_limit": "0.7385"
+        },
+        {
+          "video_id": "jr-GQX0mo28",
+          "video_url": "https://www.youtube.com/watch?v=jr-GQX0mo28",
+          "video_title": "Угроза от мигрантов #шортс #мигранты #россия",
+          "video_channel": "Матрёшка и Медведь",
+          "video_published_at": "2024-04-24T14:56:30Z",
+          "video_queries": "мигранты в россии | отношение к мигрантам в россии | как россияне относятся к мигрантам | образ мигрантов в россии | что думают о мигрантах в россии | мигранты глазами россиян | конфликты с мигрантами россия | преступления мигрантов россия | депортация мигрантов россия | мигранты и закон в россии | мигранты и работа в россии | трудовые мигранты в россии",
+          "api_reported_comment_count": "26941",
+          "max_comments_requested": "500000",
+          "estimated_downloadable_in_run": "26941",
+          "downloaded_comment_count": "21595",
+          "comment_page_requests": "222",
+          "terminal_reason": "comments_exhausted",
+          "download_coverage_vs_api_reported": "0.8016",
+          "download_coverage_vs_run_limit": "0.8016"
+        },
+        {
+          "video_id": "5PHSvzNaD9s",
+          "video_url": "https://www.youtube.com/watch?v=5PHSvzNaD9s",
+          "video_title": "«Здесь больше мигрантов, чем русских»: как живут подмосковные Котельники",
+          "video_channel": "Редакция",
+          "video_published_at": "2025-04-24T12:56:36Z",
+          "video_queries": "мигранты в россии | миграция в россии | отношение к мигрантам в россии | как россияне относятся к мигрантам | мигранты глазами россиян | проблема мигрантов в россии | преступления мигрантов россия | мигранты и преступность в россии | мигранты и работа в россии",
+          "api_reported_comment_count": "21792",
+          "max_comments_requested": "500000",
+          "estimated_downloadable_in_run": "21792",
+          "downloaded_comment_count": "12128",
+          "comment_page_requests": "128",
+          "terminal_reason": "comments_exhausted",
+          "download_coverage_vs_api_reported": "0.5565",
+          "download_coverage_vs_run_limit": "0.5565"
+        },
+        {
+          "video_id": "HVxi2c9ReKE",
+          "video_url": "https://www.youtube.com/watch?v=HVxi2c9ReKE",
+          "video_title": "Граждане Узбекистана покидают Россию",
+          "video_channel": "Продолжение следует",
+          "video_published_at": "2023-09-01T05:00:14Z",
+          "video_queries": "как россияне относятся к мигрантам",
+          "api_reported_comment_count": "20132",
+          "max_comments_requested": "500000",
+          "estimated_downloadable_in_run": "20132",
+          "downloaded_comment_count": "13908",
+          "comment_page_requests": "146",
+          "terminal_reason": "comments_exhausted",
+          "download_coverage_vs_api_reported": "0.6908",
+          "download_coverage_vs_run_limit": "0.6908"
+        },
+        {
+          "video_id": "oTaWekG-I8E",
+          "video_url": "https://www.youtube.com/watch?v=oTaWekG-I8E",
+          "video_title": "Почему трудовые мигранты уезжают из Москвы",
+          "video_channel": "Настоящее Время. Док",
+          "video_published_at": "2024-04-21T15:00:45Z",
+          "video_queries": "трудовые мигранты в россии",
+          "api_reported_comment_count": "17481",
+          "max_comments_requested": "500000",
+          "estimated_downloadable_in_run": "17481",
+          "downloaded_comment_count": "12093",
+          "comment_page_requests": "126",
+          "terminal_reason": "comments_exhausted",
+          "download_coverage_vs_api_reported": "0.6918",
+          "download_coverage_vs_run_limit": "0.6918"
+        },
+        {
+          "video_id": "5j2Kw4meheM",
+          "video_url": "https://www.youtube.com/watch?v=5j2Kw4meheM",
+          "video_title": "Россия пропадает без мигрантов #мигранты #россия #мусор #безработица",
+          "video_channel": "Интересные видео",
+          "video_published_at": "2024-07-11T21:07:43Z",
+          "video_queries": "конфликты с мигрантами россия",
+          "api_reported_comment_count": "16245",
+          "max_comments_requested": "500000",
+          "estimated_downloadable_in_run": "16245",
+          "downloaded_comment_count": "13561",
+          "comment_page_requests": "141",
+          "terminal_reason": "comments_exhausted",
+          "download_coverage_vs_api_reported": "0.8348",
+          "download_coverage_vs_run_limit": "0.8348"
+        },
+        {
+          "video_id": "6QiUoN1Ot_U",
+          "video_url": "https://www.youtube.com/watch?v=6QiUoN1Ot_U",
+          "video_title": "Почему Россия не может смириться с мигрантами / Rasstriga.doc",
+          "video_channel": "Rasstriga_doc",
+          "video_published_at": "2024-01-04T09:15:59Z",
+          "video_queries": "проблема мигрантов в россии",
+          "api_reported_comment_count": "15181",
+          "max_comments_requested": "500000",
+          "estimated_downloadable_in_run": "15181",
+          "downloaded_comment_count": "8376",
+          "comment_page_requests": "89",
+          "terminal_reason": "comments_exhausted",
+          "download_coverage_vs_api_reported": "0.5517",
+          "download_coverage_vs_run_limit": "0.5517"
+        },
+        {
+          "video_id": "75ynAhvrUiE",
+          "video_url": "https://www.youtube.com/watch?v=75ynAhvrUiE",
+          "video_title": "БТР на рейде против мигрантов",
+          "video_channel": "Настоящее Время. Азия",
+          "video_published_at": "2024-07-26T09:30:02Z",
+          "video_queries": "преступления мигрантов россия",
+          "api_reported_comment_count": "15057",
+          "max_comments_requested": "500000",
+          "estimated_downloadable_in_run": "15057",
+          "downloaded_comment_count": "12278",
+          "comment_page_requests": "128",
+          "terminal_reason": "comments_exhausted",
+          "download_coverage_vs_api_reported": "0.8154",
+          "download_coverage_vs_run_limit": "0.8154"
+        },
+        {
+          "video_id": "aFGGLusMv-o",
+          "video_url": "https://www.youtube.com/watch?v=aFGGLusMv-o",
+          "video_title": "Мигранты напали толпой на молодого пацана! #мигранты #конфликт #русские #россия #добро",
+          "video_channel": "Никита Ворожбитов",
+          "video_published_at": "2023-07-15T11:03:08Z",
+          "video_queries": "конфликты с мигрантами россия | преступления мигрантов россия",
+          "api_reported_comment_count": "14769",
+          "max_comments_requested": "500000",
+          "estimated_downloadable_in_run": "14769",
+          "downloaded_comment_count": "10267",
+          "comment_page_requests": "108",
+          "terminal_reason": "comments_exhausted",
+          "download_coverage_vs_api_reported": "0.6952",
+          "download_coverage_vs_run_limit": "0.6952"
+        },
+        {
+          "video_id": "dORwrB2gZDQ",
+          "video_url": "https://www.youtube.com/watch?v=dORwrB2gZDQ",
+          "video_title": "Индийский рабочий вместо Таджиков?#таджикистан #мигранты",
+          "video_channel": "FOX_TM",
+          "video_published_at": "2025-09-12T03:08:33Z",
+          "video_queries": "что думают о мигрантах в россии | мигранты и работа в россии",
+          "api_reported_comment_count": "13878",
+          "max_comments_requested": "500000",
+          "estimated_downloadable_in_run": "13878",
+          "downloaded_comment_count": "11916",
+          "comment_page_requests": "126",
+          "terminal_reason": "comments_exhausted",
+          "download_coverage_vs_api_reported": "0.8586",
+          "download_coverage_vs_run_limit": "0.8586"
+        }
+      ],
+      "query_rows": [],
+      "update_token": "1775938076773862500"
+    }
+  ]
+}

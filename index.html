@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YouTube Migration Dashboard</title>
+  <style>
+    :root {
+      --bg: #f4efe7;
+      --panel: rgba(255,255,255,0.82);
+      --line: rgba(56, 46, 29, 0.12);
+      --text: #2e271d;
+      --muted: #786d5b;
+      --accent: #b4482b;
+      --accent-2: #2f7f63;
+      --shadow: 0 18px 55px rgba(63, 48, 24, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(180,72,43,0.16), transparent 24%),
+        radial-gradient(circle at top right, rgba(47,127,99,0.14), transparent 20%),
+        linear-gradient(180deg, #fcfaf6 0%, var(--bg) 100%);
+    }
+    .wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 28px 20px 48px;
+    }
+    .hero { margin-bottom: 24px; }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 54px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+    .sub {
+      max-width: 860px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .toolbar, .card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      border-radius: 22px;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 14px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    select, button {
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--text);
+      padding: 10px 12px;
+      font: inherit;
+    }
+    button { cursor: pointer; }
+    .status { margin-left: auto; color: var(--muted); font-size: 14px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+    .card { grid-column: span 3; padding: 18px; min-height: 128px; }
+    .wide { grid-column: span 6; }
+    .full { grid-column: 1 / -1; }
+    .eyebrow {
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .metric {
+      font-size: clamp(24px, 3vw, 42px);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin: 0 0 6px;
+    }
+    .small { color: var(--muted); font-size: 14px; }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+    .bar {
+      margin-top: 12px;
+      height: 12px;
+      background: rgba(56, 46, 29, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar > span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #d16f4d);
+      border-radius: inherit;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    a { color: var(--accent); }
+    @media (max-width: 1080px) {
+      .card, .wide { grid-column: span 6; }
+    }
+    @media (max-width: 720px) {
+      .card, .wide, .full { grid-column: 1 / -1; }
+      .status { margin-left: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>YouTube Migration Dashboard</h1>
+      <div class="sub">Статическая панель для GitHub Pages. Перед публикацией обновите <span class="mono">docs/dashboard_data.json</span> через экспорт из ваших <span class="mono">output_*</span> папок.</div>
+    </section>
+    <div class="toolbar">
+      <label>
+        <span class="small">Набор данных</span><br />
+        <select id="dataset"></select>
+      </label>
+      <button id="refresh">Перечитать JSON</button>
+      <div class="status" id="status">Загрузка...</div>
+    </div>
+    <div class="grid" id="dashboard"></div>
+  </div>
+  <script>
+    const datasetSelect = document.getElementById("dataset");
+    const refreshButton = document.getElementById("refresh");
+    const statusNode = document.getElementById("status");
+    const dashboard = document.getElementById("dashboard");
+    let dashboardData = null;
+
+    function formatInt(value) {
+      return new Intl.NumberFormat("ru-RU").format(Number(value || 0));
+    }
+
+    function formatPct(value) {
+      return `${(Number(value || 0) * 100).toFixed(1)}%`;
+    }
+
+    function escapeHtml(text) {
+      return String(text ?? "").replace(/[&<>"]/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;"
+      }[char]));
+    }
+
+    function metricCard(title, value, note) {
+      return `
+        <article class="card">
+          <div class="eyebrow">${escapeHtml(title)}</div>
+          <div class="metric">${escapeHtml(value)}</div>
+          <div class="small">${escapeHtml(note)}</div>
+        </article>
+      `;
+    }
+
+    function renderDataset(payload) {
+      const summary = payload.summary || {};
+      const quota = summary.quota_estimate || {};
+      const terminal = summary.video_terminal_reason_counts || {};
+      const coverage = payload.coverage || {};
+      const topVideos = payload.top_videos || [];
+      const queries = payload.query_rows || [];
+      const quotaShare = quota.daily_limit ? quota.units_used_estimate / quota.daily_limit : 0;
+      const reportedCoverage = coverage.api_reported_comment_count_total
+        ? coverage.downloaded_comment_count_total / coverage.api_reported_comment_count_total
+        : 0;
+
+      dashboard.innerHTML = `
+        ${metricCard("Видео", formatInt(summary.video_count || payload.video_count || 0), "Число видео в наборе")}
+        ${metricCard("Комментарии", formatInt(summary.comment_count || payload.comment_count || 0), "Сохранены в youtube_comments.csv")}
+        ${metricCard("API Reported", formatInt(coverage.api_reported_comment_count_total || 0), "Сумма api_reported_comment_count")}
+        ${metricCard("Покрытие", formatPct(reportedCoverage), "Скачано от API-reported")}
+
+        <article class="card wide">
+          <div class="eyebrow">Квота Последнего Запуска</div>
+          <div class="metric">${formatInt(quota.units_used_estimate || 0)} / ${formatInt(quota.daily_limit || 0)}</div>
+          <div class="small">Осталось до лимита: ${formatInt(quota.units_remaining_estimate || 0)}. До резервного порога: ${formatInt(quota.units_remaining_before_reserve_estimate || 0)}.</div>
+          <div class="bar"><span style="width:${Math.min(quotaShare * 100, 100)}%"></span></div>
+          <div style="margin-top:12px">
+            ${Object.entries(quota.endpoint_units_estimate || {}).map(([name, value]) => `
+              <div class="row"><span class="mono">${escapeHtml(name)}</span><strong>${formatInt(value)}</strong></div>
+            `).join("") || '<div class="small">Нет данных по квоте.</div>'}
+          </div>
+        </article>
+
+        <article class="card wide">
+          <div class="eyebrow">Состояния Видео</div>
+          ${Object.entries(terminal).map(([name, value]) => `
+            <div class="row"><span class="mono">${escapeHtml(name)}</span><strong>${formatInt(value)}</strong></div>
+          `).join("") || '<div class="small">Нет данных.</div>'}
+          <div class="small" style="margin-top:12px">
+            excluded_video_ids_count: ${formatInt(summary.excluded_video_ids_count || 0)}<br />
+            excluded_video_hits_skipped: ${formatInt(summary.excluded_video_hits_skipped || 0)}<br />
+            stopped_due_to_quota: ${summary.stopped_due_to_quota ? 'yes' : 'no'}
+          </div>
+        </article>
+
+        <article class="card full">
+          <div class="eyebrow">Top Videos By Reported Comments</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Видео</th>
+                <th>API Reported</th>
+                <th>Скачано</th>
+                <th>Причина</th>
+                <th>Канал</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${topVideos.map(row => `
+                <tr>
+                  <td><a href="${escapeHtml(row.video_url || '#')}" target="_blank" rel="noreferrer">${escapeHtml(row.video_title || row.video_id)}</a></td>
+                  <td>${formatInt(row.api_reported_comment_count || 0)}</td>
+                  <td>${formatInt(row.downloaded_comment_count || 0)}</td>
+                  <td class="mono">${escapeHtml(row.terminal_reason || '')}</td>
+                  <td>${escapeHtml(row.video_channel || '')}</td>
+                </tr>
+              `).join("") || '<tr><td colspan="5">Нет данных.</td></tr>'}
+            </tbody>
+          </table>
+        </article>
+
+        <article class="card full">
+          <div class="eyebrow">Запросы</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Запрос</th>
+                <th>Страниц</th>
+                <th>Уникальных Видео</th>
+                <th>Дубли</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${queries.map(row => `
+                <tr>
+                  <td>${escapeHtml(row.query)}</td>
+                  <td>${formatInt(row.search_pages)}</td>
+                  <td>${formatInt(row.unique_videos)}</td>
+                  <td>${formatInt(row.duplicate_hits)}</td>
+                </tr>
+              `).join("") || '<tr><td colspan="4">Нет query_stats для этого набора.</td></tr>'}
+            </tbody>
+          </table>
+        </article>
+      `;
+
+      statusNode.innerHTML = `
+        <span>Набор: <strong>${escapeHtml(payload.directory)}</strong></span>
+        <span> | Экспорт: <strong>${escapeHtml(dashboardData.generated_at_utc || "-")}</strong></span>
+        <span> | Token: <strong>${escapeHtml(payload.update_token || "-")}</strong></span>
+      `;
+    }
+
+    async function loadData() {
+      const response = await fetch("./dashboard_data.json", { cache: "no-store" });
+      dashboardData = await response.json();
+      datasetSelect.innerHTML = "";
+      for (const dataset of dashboardData.datasets || []) {
+        const option = document.createElement("option");
+        option.value = dataset.directory;
+        option.textContent = dataset.directory;
+        datasetSelect.appendChild(option);
+      }
+      if ((dashboardData.datasets || []).length > 0) {
+        renderDataset(dashboardData.datasets[0]);
+      } else {
+        statusNode.textContent = "Нет datasets в dashboard_data.json";
+      }
+    }
+
+    datasetSelect.addEventListener("change", () => {
+      if (!dashboardData) return;
+      const dataset = (dashboardData.datasets || []).find(item => item.directory === datasetSelect.value);
+      if (dataset) renderDataset(dataset);
+    });
+
+    refreshButton.addEventListener("click", async () => {
+      await loadData();
+      const selected = datasetSelect.value;
+      const dataset = (dashboardData.datasets || []).find(item => item.directory === selected) || dashboardData.datasets?.[0];
+      if (dataset) {
+        datasetSelect.value = dataset.directory;
+        renderDataset(dataset);
+      }
+    });
+
+    loadData();
+  </script>
+</body>
+</html>

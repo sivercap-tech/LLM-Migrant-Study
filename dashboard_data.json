@@ -1,12 +1,663 @@
 {
-  "generated_at_utc": "2026-04-13T00:20:58.808369+00:00",
+  "generated_at_utc": "2026-04-13T19:06:10.891347+00:00",
   "base_dir": "/Users/sanzarajtzanov/Downloads/VKR/2025 год ПРОЕКТЫ/LLM/llm paser",
   "directories": [
+    "output_2019_search_wave1",
+    "output_2019_search_wave2",
     "output_2020_2026_search_only",
     "output_2020_2026_search_wave2",
+    "output_2020_2026_search_wave3",
     "output_2023_2026"
   ],
   "datasets": [
+    {
+      "directory": "output_2019_search_wave1",
+      "summary": {
+        "generated_at_utc": "2026-04-13T18:39:46.924016+00:00",
+        "video_count": 305,
+        "comment_count": 0,
+        "query_stats": {
+          "мигранты в россии": {
+            "search_pages": 3,
+            "unique_videos": 124,
+            "duplicate_hits": 2
+          },
+          "миграция в россии": {
+            "search_pages": 2,
+            "unique_videos": 70,
+            "duplicate_hits": 0
+          },
+          "мигранты россия новости": {
+            "search_pages": 2,
+            "unique_videos": 65,
+            "duplicate_hits": 0
+          },
+          "нелегальные мигранты россия": {
+            "search_pages": 1,
+            "unique_videos": 8,
+            "duplicate_hits": 0
+          },
+          "трудовые мигранты в россии": {
+            "search_pages": 2,
+            "unique_videos": 56,
+            "duplicate_hits": 0
+          },
+          "отношение к мигрантам в россии": {
+            "search_pages": 1,
+            "unique_videos": 1,
+            "duplicate_hits": 0
+          },
+          "проблема мигрантов в россии": {
+            "search_pages": 1,
+            "unique_videos": 5,
+            "duplicate_hits": 0
+          },
+          "преступления мигрантов россия": {
+            "search_pages": 1,
+            "unique_videos": 13,
+            "duplicate_hits": 0
+          },
+          "мигранты и преступность в россии": {
+            "search_pages": 1,
+            "unique_videos": 2,
+            "duplicate_hits": 0
+          },
+          "межнациональные конфликты россия": {
+            "search_pages": 1,
+            "unique_videos": 1,
+            "duplicate_hits": 0
+          },
+          "конфликт с мигрантами россия": {
+            "search_pages": 1,
+            "unique_videos": 0,
+            "duplicate_hits": 0
+          },
+          "депортация мигрантов россия": {
+            "search_pages": 1,
+            "unique_videos": 7,
+            "duplicate_hits": 0
+          },
+          "рейд мигранты россия": {
+            "search_pages": 1,
+            "unique_videos": 7,
+            "duplicate_hits": 0
+          },
+          "рейд по мигрантам москва": {
+            "search_pages": 1,
+            "unique_videos": 0,
+            "duplicate_hits": 0
+          },
+          "мигранты в москве": {
+            "search_pages": 2,
+            "unique_videos": 55,
+            "duplicate_hits": 0
+          },
+          "мигранты в подмосковье": {
+            "search_pages": 1,
+            "unique_videos": 3,
+            "duplicate_hits": 0
+          },
+          "мигранты в санкт-петербурге": {
+            "search_pages": 1,
+            "unique_videos": 16,
+            "duplicate_hits": 0
+          },
+          "мигранты в школах россии": {
+            "search_pages": 1,
+            "unique_videos": 2,
+            "duplicate_hits": 0
+          },
+          "дети мигрантов в россии": {
+            "search_pages": 1,
+            "unique_videos": 10,
+            "duplicate_hits": 0
+          },
+          "адаптация мигрантов в россии": {
+            "search_pages": 1,
+            "unique_videos": 3,
+            "duplicate_hits": 0
+          },
+          "интеграция мигрантов в россии": {
+            "search_pages": 1,
+            "unique_videos": 3,
+            "duplicate_hits": 0
+          },
+          "патент на работу мигрантам россия": {
+            "search_pages": 1,
+            "unique_videos": 4,
+            "duplicate_hits": 0
+          },
+          "иностранные граждане россия миграция": {
+            "search_pages": 1,
+            "unique_videos": 3,
+            "duplicate_hits": 0
+          },
+          "приезжие в россии новости": {
+            "search_pages": 1,
+            "unique_videos": 25,
+            "duplicate_hits": 0
+          },
+          "граждане снг в россии миграция": {
+            "search_pages": 1,
+            "unique_videos": 1,
+            "duplicate_hits": 0
+          }
+        },
+        "video_terminal_reason_counts": {
+          "unfinished": 305
+        },
+        "top_videos": [
+          {
+            "video_id": "qfpt80BIhOM",
+            "title": "Опрос: Москвичи против мигрантов? Мигранты дают интервью (Таджикистан Узбекистан Киргизия)",
+            "channel_title": "ohmuri",
+            "published_at": "2019-10-24T11:05:16Z",
+            "comment_count": 41236,
+            "view_count": 2061866,
+            "queries": "мигранты в россии | мигранты в москве",
+            "url": "https://www.youtube.com/watch?v=qfpt80BIhOM"
+          },
+          {
+            "video_id": "HvefZJNFHzw",
+            "title": "Опрос: МОСКВА vs МИГРАНТЫ (Узбекистан, Таджикистан, Киргизия)",
+            "channel_title": "ohmuri",
+            "published_at": "2019-04-11T12:53:52Z",
+            "comment_count": 24041,
+            "view_count": 2195218,
+            "queries": "мигранты в москве",
+            "url": "https://www.youtube.com/watch?v=HvefZJNFHzw"
+          },
+          {
+            "video_id": "ww23a3vWSyo",
+            "title": "Москва, Александровский, беспричинная проверка документов? Moscow, unreasonable document checking?",
+            "channel_title": "Alexander Kim",
+            "published_at": "2019-10-03T10:22:52Z",
+            "comment_count": 18860,
+            "view_count": 4866633,
+            "queries": "мигранты в москве",
+            "url": "https://www.youtube.com/watch?v=ww23a3vWSyo"
+          },
+          {
+            "video_id": "NQcSHu7rEtM",
+            "title": "Пора валить! Почему из России нужно бежать?",
+            "channel_title": "Иоганн Себастьян",
+            "published_at": "2019-05-26T16:13:02Z",
+            "comment_count": 5687,
+            "view_count": 363056,
+            "queries": "миграция в россии | мигранты в россии",
+            "url": "https://www.youtube.com/watch?v=NQcSHu7rEtM"
+          },
+          {
+            "video_id": "hTKGn_OXS6c",
+            "title": "Голикова: Россия катастрофически теряет население",
+            "channel_title": "Новости СВЕРХДЕРЖАВЫ",
+            "published_at": "2019-07-04T12:51:51Z",
+            "comment_count": 5600,
+            "view_count": 386220,
+            "queries": "мигранты в россии",
+            "url": "https://www.youtube.com/watch?v=hTKGn_OXS6c"
+          },
+          {
+            "video_id": "UHwhx3A58LM",
+            "title": "Федерация мигрантов России спасла мигранта из тюрьмы и подарила подарки на Навруз!",
+            "channel_title": "Центр правовой помощи В.В. Коженова",
+            "published_at": "2019-03-22T08:20:04Z",
+            "comment_count": 4540,
+            "view_count": 1023688,
+            "queries": "мигранты в москве | мигранты в россии",
+            "url": "https://www.youtube.com/watch?v=UHwhx3A58LM"
+          },
+          {
+            "video_id": "ucAKE8ej6Rw",
+            "title": "Почему Россия принимает мигрантов из Азии ?",
+            "channel_title": "История всего",
+            "published_at": "2019-09-10T13:50:59Z",
+            "comment_count": 3646,
+            "view_count": 290071,
+            "queries": "миграция в россии | мигранты в россии",
+            "url": "https://www.youtube.com/watch?v=ucAKE8ej6Rw"
+          },
+          {
+            "video_id": "2H21AufJopw",
+            "title": "Мигранты (драма, реж. Валерий Приемыхов, 1991 г.)",
+            "channel_title": "Киноконцерн \"Мосфильм\"",
+            "published_at": "2019-06-07T14:28:27Z",
+            "comment_count": 2793,
+            "view_count": 2431546,
+            "queries": "мигранты в россии",
+            "url": "https://www.youtube.com/watch?v=2H21AufJopw"
+          },
+          {
+            "video_id": "XGokJvUaMk4",
+            "title": "Откуда едут мигранты в Россию? Топ-10 стран, из которых идет переселение в Россию на ПМЖ",
+            "channel_title": "Капиталист Денежный",
+            "published_at": "2019-11-21T13:22:52Z",
+            "comment_count": 2709,
+            "view_count": 680644,
+            "queries": "мигранты в россии | миграция в россии",
+            "url": "https://www.youtube.com/watch?v=XGokJvUaMk4"
+          },
+          {
+            "video_id": "wpxwOnVRPes",
+            "title": "Народ бежит из России. Эмиграция в США.10 миллионов мигрантов Дудь Чичваркин Таир Мамедов Серебряков",
+            "channel_title": "Новости России",
+            "published_at": "2019-04-11T07:30:02Z",
+            "comment_count": 2113,
+            "view_count": 297413,
+            "queries": "миграция в россии | мигранты россия новости",
+            "url": "https://www.youtube.com/watch?v=wpxwOnVRPes"
+          }
+        ],
+        "search_strategy": {
+          "mode": "fresh",
+          "search_orders": [
+            "date"
+          ],
+          "max_videos_per_query": 500,
+          "max_search_pages_per_query": 4,
+          "search_quota_share": 0.95,
+          "comment_order": "time",
+          "max_comments_per_video": 500,
+          "comment_rounds_completed": 0,
+          "search_budget_units": 3562,
+          "excluded_video_ids_count": 1873,
+          "skip_comments": true,
+          "stopped_due_to_quota": false
+        },
+        "duplicate_video_hits_skipped": 2,
+        "excluded_video_ids_count": 1873,
+        "excluded_video_hits_skipped": 0,
+        "quota_estimate": {
+          "daily_limit": 3900,
+          "reserve": 150,
+          "usable_limit": 3750,
+          "units_used_estimate": 3107,
+          "units_remaining_estimate": 793,
+          "units_remaining_before_reserve_estimate": 643,
+          "endpoint_units_estimate": {
+            "search": 3100,
+            "videos": 7
+          },
+          "endpoint_request_count": {
+            "search": 31,
+            "videos": 7
+          },
+          "cost_reference": {
+            "search": 100,
+            "videos": 1,
+            "commentThreads": 1
+          }
+        },
+        "new_comments_downloaded_this_run": 0,
+        "stopped_due_to_quota": false
+      },
+      "video_count": 305,
+      "comment_count": 0,
+      "coverage": {
+        "api_reported_comment_count_total": 141046,
+        "downloaded_comment_count_total": 0
+      },
+      "top_videos": [
+        {
+          "video_id": "qfpt80BIhOM",
+          "video_url": "https://www.youtube.com/watch?v=qfpt80BIhOM",
+          "video_title": "Опрос: Москвичи против мигрантов? Мигранты дают интервью (Таджикистан Узбекистан Киргизия)",
+          "video_channel": "ohmuri",
+          "video_published_at": "2019-10-24T11:05:16Z",
+          "video_queries": "мигранты в россии | мигранты в москве",
+          "api_reported_comment_count": "41236",
+          "max_comments_requested": "500",
+          "estimated_downloadable_in_run": "500",
+          "downloaded_comment_count": "0",
+          "comment_page_requests": "0",
+          "terminal_reason": "",
+          "download_coverage_vs_api_reported": "0.0",
+          "download_coverage_vs_run_limit": "0.0"
+        },
+        {
+          "video_id": "HvefZJNFHzw",
+          "video_url": "https://www.youtube.com/watch?v=HvefZJNFHzw",
+          "video_title": "Опрос: МОСКВА vs МИГРАНТЫ (Узбекистан, Таджикистан, Киргизия)",
+          "video_channel": "ohmuri",
+          "video_published_at": "2019-04-11T12:53:52Z",
+          "video_queries": "мигранты в москве",
+          "api_reported_comment_count": "24041",
+          "max_comments_requested": "500",
+          "estimated_downloadable_in_run": "500",
+          "downloaded_comment_count": "0",
+          "comment_page_requests": "0",
+          "terminal_reason": "",
+          "download_coverage_vs_api_reported": "0.0",
+          "download_coverage_vs_run_limit": "0.0"
+        },
+        {
+          "video_id": "ww23a3vWSyo",
+          "video_url": "https://www.youtube.com/watch?v=ww23a3vWSyo",
+          "video_title": "Москва, Александровский, беспричинная проверка документов? Moscow, unreasonable document checking?",
+          "video_channel": "Alexander Kim",
+          "video_published_at": "2019-10-03T10:22:52Z",
+          "video_queries": "мигранты в москве",
+          "api_reported_comment_count": "18860",
+          "max_comments_requested": "500",
+          "estimated_downloadable_in_run": "500",
+          "downloaded_comment_count": "0",
+          "comment_page_requests": "0",
+          "terminal_reason": "",
+          "download_coverage_vs_api_reported": "0.0",
+          "download_coverage_vs_run_limit": "0.0"
+        },
+        {
+          "video_id": "NQcSHu7rEtM",
+          "video_url": "https://www.youtube.com/watch?v=NQcSHu7rEtM",
+          "video_title": "Пора валить! Почему из России нужно бежать?",
+          "video_channel": "Иоганн Себастьян",
+          "video_published_at": "2019-05-26T16:13:02Z",
+          "video_queries": "миграция в россии | мигранты в россии",
+          "api_reported_comment_count": "5687",
+          "max_comments_requested": "500",
+          "estimated_downloadable_in_run": "500",
+          "downloaded_comment_count": "0",
+          "comment_page_requests": "0",
+          "terminal_reason": "",
+          "download_coverage_vs_api_reported": "0.0",
+          "download_coverage_vs_run_limit": "0.0"
+        },
+        {
+          "video_id": "hTKGn_OXS6c",
+          "video_url": "https://www.youtube.com/watch?v=hTKGn_OXS6c",
+          "video_title": "Голикова: Россия катастрофически теряет население",
+          "video_channel": "Новости СВЕРХДЕРЖАВЫ",
+          "video_published_at": "2019-07-04T12:51:51Z",
+          "video_queries": "мигранты в россии",
+          "api_reported_comment_count": "5600",
+          "max_comments_requested": "500",
+          "estimated_downloadable_in_run": "500",
+          "downloaded_comment_count": "0",
+          "comment_page_requests": "0",
+          "terminal_reason": "",
+          "download_coverage_vs_api_reported": "0.0",
+          "download_coverage_vs_run_limit": "0.0"
+        },
+        {
+          "video_id": "UHwhx3A58LM",
+          "video_url": "https://www.youtube.com/watch?v=UHwhx3A58LM",
+          "video_title": "Федерация мигрантов России спасла мигранта из тюрьмы и подарила подарки на Навруз!",
+          "video_channel": "Центр правовой помощи В.В. Коженова",
+          "video_published_at": "2019-03-22T08:20:04Z",
+          "video_queries": "мигранты в москве | мигранты в россии",
+          "api_reported_comment_count": "4540",
+          "max_comments_requested": "500",
+          "estimated_downloadable_in_run": "500",
+          "downloaded_comment_count": "0",
+          "comment_page_requests": "0",
+          "terminal_reason": "",
+          "download_coverage_vs_api_reported": "0.0",
+          "download_coverage_vs_run_limit": "0.0"
+        },
+        {
+          "video_id": "ucAKE8ej6Rw",
+          "video_url": "https://www.youtube.com/watch?v=ucAKE8ej6Rw",
+          "video_title": "Почему Россия принимает мигрантов из Азии ?",
+          "video_channel": "История всего",
+          "video_published_at": "2019-09-10T13:50:59Z",
+          "video_queries": "миграция в россии | мигранты в россии",
+          "api_reported_comment_count": "3646",
+          "max_comments_requested": "500",
+          "estimated_downloadable_in_run": "500",
+          "downloaded_comment_count": "0",
+          "comment_page_requests": "0",
+          "terminal_reason": "",
+          "download_coverage_vs_api_reported": "0.0",
+          "download_coverage_vs_run_limit": "0.0"
+        },
+        {
+          "video_id": "2H21AufJopw",
+          "video_url": "https://www.youtube.com/watch?v=2H21AufJopw",
+          "video_title": "Мигранты (драма, реж. Валерий Приемыхов, 1991 г.)",
+          "video_channel": "Киноконцерн \"Мосфильм\"",
+          "video_published_at": "2019-06-07T14:28:27Z",
+          "video_queries": "мигранты в россии",
+          "api_reported_comment_count": "2793",
+          "max_comments_requested": "500",
+          "estimated_downloadable_in_run": "500",
+          "downloaded_comment_count": "0",
+          "comment_page_requests": "0",
+          "terminal_reason": "",
+          "download_coverage_vs_api_reported": "0.0",
+          "download_coverage_vs_run_limit": "0.0"
+        },
+        {
+          "video_id": "XGokJvUaMk4",
+          "video_url": "https://www.youtube.com/watch?v=XGokJvUaMk4",
+          "video_title": "Откуда едут мигранты в Россию? Топ-10 стран, из которых идет переселение в Россию на ПМЖ",
+          "video_channel": "Капиталист Денежный",
+          "video_published_at": "2019-11-21T13:22:52Z",
+          "video_queries": "мигранты в россии | миграция в россии",
+          "api_reported_comment_count": "2709",
+          "max_comments_requested": "500",
+          "estimated_downloadable_in_run": "500",
+          "downloaded_comment_count": "0",
+          "comment_page_requests": "0",
+          "terminal_reason": "",
+          "download_coverage_vs_api_reported": "0.0",
+          "download_coverage_vs_run_limit": "0.0"
+        },
+        {
+          "video_id": "wpxwOnVRPes",
+          "video_url": "https://www.youtube.com/watch?v=wpxwOnVRPes",
+          "video_title": "Народ бежит из России. Эмиграция в США.10 миллионов мигрантов Дудь Чичваркин Таир Мамедов Серебряков",
+          "video_channel": "Новости России",
+          "video_published_at": "2019-04-11T07:30:02Z",
+          "video_queries": "миграция в россии | мигранты россия новости",
+          "api_reported_comment_count": "2113",
+          "max_comments_requested": "500",
+          "estimated_downloadable_in_run": "500",
+          "downloaded_comment_count": "0",
+          "comment_page_requests": "0",
+          "terminal_reason": "",
+          "download_coverage_vs_api_reported": "0.0",
+          "download_coverage_vs_run_limit": "0.0"
+        },
+        {
+          "video_id": "IM38Jt-Ivsg",
+          "video_url": "https://www.youtube.com/watch?v=IM38Jt-Ivsg",
+          "video_title": "Жириновский про Кыргызстан мигрантов Кыргызстана и народ",
+          "video_channel": "History & Facts",
+          "video_published_at": "2019-08-21T20:45:02Z",
+          "video_queries": "мигранты россия новости | мигранты в москве | мигранты в россии",
+          "api_reported_comment_count": "1792",
+          "max_comments_requested": "500",
+          "estimated_downloadable_in_run": "500",
+          "downloaded_comment_count": "0",
+          "comment_page_requests": "0",
+          "terminal_reason": "",
+          "download_coverage_vs_api_reported": "0.0",
+          "download_coverage_vs_run_limit": "0.0"
+        },
+        {
+          "video_id": "7BjjWrOwq6M",
+          "video_url": "https://www.youtube.com/watch?v=7BjjWrOwq6M",
+          "video_title": "Россия начнёт платить пенсии трудовым мигрантам. Сказочная пенсия в 25000 ₽ | Pravda GlazaRezhet",
+          "video_channel": "Pravda GlazaRezhet",
+          "video_published_at": "2019-06-11T13:55:48Z",
+          "video_queries": "мигранты россия новости | мигранты в россии",
+          "api_reported_comment_count": "1507",
+          "max_comments_requested": "500",
+          "estimated_downloadable_in_run": "500",
+          "downloaded_comment_count": "0",
+          "comment_page_requests": "0",
+          "terminal_reason": "",
+          "download_coverage_vs_api_reported": "0.0",
+          "download_coverage_vs_run_limit": "0.0"
+        }
+      ],
+      "query_rows": [
+        {
+          "query": "мигранты в россии",
+          "search_pages": 3,
+          "unique_videos": 124,
+          "duplicate_hits": 2
+        },
+        {
+          "query": "миграция в россии",
+          "search_pages": 2,
+          "unique_videos": 70,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты россия новости",
+          "search_pages": 2,
+          "unique_videos": 65,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "нелегальные мигранты россия",
+          "search_pages": 1,
+          "unique_videos": 8,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "трудовые мигранты в россии",
+          "search_pages": 2,
+          "unique_videos": 56,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "отношение к мигрантам в россии",
+          "search_pages": 1,
+          "unique_videos": 1,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "проблема мигрантов в россии",
+          "search_pages": 1,
+          "unique_videos": 5,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "преступления мигрантов россия",
+          "search_pages": 1,
+          "unique_videos": 13,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты и преступность в россии",
+          "search_pages": 1,
+          "unique_videos": 2,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "межнациональные конфликты россия",
+          "search_pages": 1,
+          "unique_videos": 1,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "конфликт с мигрантами россия",
+          "search_pages": 1,
+          "unique_videos": 0,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "депортация мигрантов россия",
+          "search_pages": 1,
+          "unique_videos": 7,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "рейд мигранты россия",
+          "search_pages": 1,
+          "unique_videos": 7,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "рейд по мигрантам москва",
+          "search_pages": 1,
+          "unique_videos": 0,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты в москве",
+          "search_pages": 2,
+          "unique_videos": 55,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты в подмосковье",
+          "search_pages": 1,
+          "unique_videos": 3,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты в санкт-петербурге",
+          "search_pages": 1,
+          "unique_videos": 16,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты в школах россии",
+          "search_pages": 1,
+          "unique_videos": 2,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "дети мигрантов в россии",
+          "search_pages": 1,
+          "unique_videos": 10,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "адаптация мигрантов в россии",
+          "search_pages": 1,
+          "unique_videos": 3,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "интеграция мигрантов в россии",
+          "search_pages": 1,
+          "unique_videos": 3,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "патент на работу мигрантам россия",
+          "search_pages": 1,
+          "unique_videos": 4,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "иностранные граждане россия миграция",
+          "search_pages": 1,
+          "unique_videos": 3,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "приезжие в россии новости",
+          "search_pages": 1,
+          "unique_videos": 25,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "граждане снг в россии миграция",
+          "search_pages": 1,
+          "unique_videos": 1,
+          "duplicate_hits": 0
+        }
+      ],
+      "update_token": "1776105586937753869"
+    },
+    {
+      "directory": "output_2019_search_wave2",
+      "summary": {},
+      "video_count": 0,
+      "comment_count": 0,
+      "coverage": {
+        "api_reported_comment_count_total": 0,
+        "downloaded_comment_count_total": 0
+      },
+      "top_videos": [],
+      "query_rows": [],
+      "update_token": "0"
+    },
     {
       "directory": "output_2020_2026_search_only",
       "summary": {
@@ -1392,6 +2043,699 @@
         }
       ],
       "update_token": "1776039545602968744"
+    },
+    {
+      "directory": "output_2020_2026_search_wave3",
+      "summary": {
+        "generated_at_utc": "2026-04-13T18:13:47.524057+00:00",
+        "video_count": 47,
+        "comment_count": 37,
+        "query_stats": {
+          "мигранты в россии": {
+            "search_pages": 2,
+            "unique_videos": 2,
+            "duplicate_hits": 0
+          },
+          "миграция в россии": {
+            "search_pages": 2,
+            "unique_videos": 2,
+            "duplicate_hits": 0
+          },
+          "отношение к мигрантам в россии": {
+            "search_pages": 2,
+            "unique_videos": 1,
+            "duplicate_hits": 0
+          },
+          "как россияне относятся к мигрантам": {
+            "search_pages": 2,
+            "unique_videos": 1,
+            "duplicate_hits": 0
+          },
+          "образ мигрантов в россии": {
+            "search_pages": 2,
+            "unique_videos": 0,
+            "duplicate_hits": 0
+          },
+          "мнение россиян о мигрантах": {
+            "search_pages": 2,
+            "unique_videos": 0,
+            "duplicate_hits": 0
+          },
+          "что думают о мигрантах в россии": {
+            "search_pages": 2,
+            "unique_videos": 10,
+            "duplicate_hits": 0
+          },
+          "мигранты глазами россиян": {
+            "search_pages": 2,
+            "unique_videos": 0,
+            "duplicate_hits": 0
+          },
+          "нелегальные мигранты россия": {
+            "search_pages": 2,
+            "unique_videos": 0,
+            "duplicate_hits": 0
+          },
+          "проблема мигрантов в россии": {
+            "search_pages": 2,
+            "unique_videos": 0,
+            "duplicate_hits": 0
+          },
+          "конфликты с мигрантами россия": {
+            "search_pages": 2,
+            "unique_videos": 0,
+            "duplicate_hits": 0
+          },
+          "преступления мигрантов россия": {
+            "search_pages": 2,
+            "unique_videos": 0,
+            "duplicate_hits": 0
+          },
+          "мигранты и преступность в россии": {
+            "search_pages": 2,
+            "unique_videos": 0,
+            "duplicate_hits": 0
+          },
+          "депортация мигрантов россия": {
+            "search_pages": 2,
+            "unique_videos": 0,
+            "duplicate_hits": 0
+          },
+          "мигранты и закон в россии": {
+            "search_pages": 2,
+            "unique_videos": 0,
+            "duplicate_hits": 0
+          },
+          "мигранты и работа в россии": {
+            "search_pages": 2,
+            "unique_videos": 0,
+            "duplicate_hits": 0
+          },
+          "трудовые мигранты в россии": {
+            "search_pages": 2,
+            "unique_videos": 3,
+            "duplicate_hits": 0
+          },
+          "мигранты и рынок труда россия": {
+            "search_pages": 2,
+            "unique_videos": 4,
+            "duplicate_hits": 0
+          },
+          "мигранты в москве": {
+            "search_pages": 2,
+            "unique_videos": 1,
+            "duplicate_hits": 0
+          },
+          "мигранты в санкт-петербурге": {
+            "search_pages": 2,
+            "unique_videos": 1,
+            "duplicate_hits": 0
+          },
+          "мигранты в подмосковье": {
+            "search_pages": 2,
+            "unique_videos": 6,
+            "duplicate_hits": 0
+          },
+          "мигранты в регионах россии": {
+            "search_pages": 2,
+            "unique_videos": 1,
+            "duplicate_hits": 0
+          },
+          "мигранты в школах россии": {
+            "search_pages": 2,
+            "unique_videos": 2,
+            "duplicate_hits": 0
+          },
+          "дети мигрантов в россии": {
+            "search_pages": 2,
+            "unique_videos": 1,
+            "duplicate_hits": 0
+          },
+          "мигранты и русский язык в россии": {
+            "search_pages": 2,
+            "unique_videos": 1,
+            "duplicate_hits": 0
+          },
+          "адаптация мигрантов в россии": {
+            "search_pages": 2,
+            "unique_videos": 2,
+            "duplicate_hits": 0
+          },
+          "интеграция мигрантов в россии": {
+            "search_pages": 2,
+            "unique_videos": 3,
+            "duplicate_hits": 1
+          },
+          "межнациональные конфликты россия мигранты": {
+            "search_pages": 2,
+            "unique_videos": 1,
+            "duplicate_hits": 0
+          },
+          "бытовые конфликты с мигрантами россия": {
+            "search_pages": 2,
+            "unique_videos": 2,
+            "duplicate_hits": 0
+          },
+          "новости про мигрантов россия": {
+            "search_pages": 2,
+            "unique_videos": 5,
+            "duplicate_hits": 0
+          }
+        },
+        "video_terminal_reason_counts": {
+          "hit_run_limit": 37,
+          "unfinished": 10
+        },
+        "top_videos": [
+          {
+            "video_id": "pKt5W0aBEBU",
+            "title": "Ким Чен Ын В ШОКЕ от России",
+            "channel_title": "Телеканал ICTV",
+            "published_at": "2023-09-17T11:00:38Z",
+            "comment_count": 18830,
+            "view_count": 12409654,
+            "queries": "что думают о мигрантах в россии",
+            "url": "https://www.youtube.com/watch?v=pKt5W0aBEBU"
+          },
+          {
+            "video_id": "r_RcJwdaDV8",
+            "title": "\"В России вы не герой\" | Горбачев #shorts",
+            "channel_title": "Радио Свобода",
+            "published_at": "2022-08-31T15:06:38Z",
+            "comment_count": 18202,
+            "view_count": 3533735,
+            "queries": "что думают о мигрантах в россии",
+            "url": "https://www.youtube.com/watch?v=r_RcJwdaDV8"
+          },
+          {
+            "video_id": "J1_tjseVllY",
+            "title": "Стало вдвое меньше! Мигранты Центральной Азии массово уезжают из России",
+            "channel_title": "Лига Свободных Наций",
+            "published_at": "2025-12-13T10:05:25Z",
+            "comment_count": 2785,
+            "view_count": 1108522,
+            "queries": "что думают о мигрантах в россии",
+            "url": "https://www.youtube.com/watch?v=J1_tjseVllY"
+          },
+          {
+            "video_id": "BK98uSGDUcQ",
+            "title": "Мигранты УБИЛИ Русского Парня за Футбольный Гол! ДОКОЛЕ?",
+            "channel_title": "Новости 24",
+            "published_at": "2025-08-23T14:36:07Z",
+            "comment_count": 1651,
+            "view_count": 48566,
+            "queries": "мигранты в подмосковье",
+            "url": "https://www.youtube.com/watch?v=BK98uSGDUcQ"
+          },
+          {
+            "video_id": "o7MRoE-Fmgo",
+            "title": "Россияне задумались о переезде в Беларусь",
+            "channel_title": "Настоящее Время",
+            "published_at": "2026-03-26T15:45:09Z",
+            "comment_count": 766,
+            "view_count": 162023,
+            "queries": "что думают о мигрантах в россии",
+            "url": "https://www.youtube.com/watch?v=o7MRoE-Fmgo"
+          },
+          {
+            "video_id": "ChkW0gZkTE8",
+            "title": "Следующая остановка – МАХАЧКАЛА! – дагестанцы воюют на стороне Украины против РФ #short",
+            "channel_title": "FREEДOM",
+            "published_at": "2025-06-30T16:00:33Z",
+            "comment_count": 418,
+            "view_count": 1366232,
+            "queries": "что думают о мигрантах в россии",
+            "url": "https://www.youtube.com/watch?v=ChkW0gZkTE8"
+          },
+          {
+            "video_id": "MZTum2QtuvE",
+            "title": "Пьяный мигрант в Подмосковье набросился на свою...",
+            "channel_title": "Новости 24",
+            "published_at": "2022-07-05T07:56:15Z",
+            "comment_count": 306,
+            "view_count": 29282,
+            "queries": "мигранты в подмосковье",
+            "url": "https://www.youtube.com/watch?v=MZTum2QtuvE"
+          },
+          {
+            "video_id": "th9Oct2atYI",
+            "title": "Рейд по мигрантам",
+            "channel_title": "108 канал",
+            "published_at": "2026-01-28T07:44:58Z",
+            "comment_count": 283,
+            "view_count": 129168,
+            "queries": "мигранты в санкт-петербурге",
+            "url": "https://www.youtube.com/watch?v=th9Oct2atYI"
+          },
+          {
+            "video_id": "eHYmQPcPfvI",
+            "title": "Жить стало сложнее: в Россию хлынул поток трудовых мигрантов",
+            "channel_title": "Телеканал ТОЛК",
+            "published_at": "2022-07-25T09:33:06Z",
+            "comment_count": 254,
+            "view_count": 4880,
+            "queries": "что думают о мигрантах в россии",
+            "url": "https://www.youtube.com/watch?v=eHYmQPcPfvI"
+          },
+          {
+            "video_id": "aDBa9qMXSmg",
+            "title": "Россия запретила зачислять в школы детей мигрантов, которые не владеют русским языком",
+            "channel_title": "Настоящее Время. Азия",
+            "published_at": "2024-12-12T11:34:57Z",
+            "comment_count": 219,
+            "view_count": 27575,
+            "queries": "мигранты в школах россии",
+            "url": "https://www.youtube.com/watch?v=aDBa9qMXSmg"
+          }
+        ],
+        "search_strategy": {
+          "mode": "fresh",
+          "search_orders": [
+            "relevance",
+            "date"
+          ],
+          "max_videos_per_query": 500,
+          "max_search_pages_per_query": 1,
+          "search_quota_share": 0.95,
+          "comment_order": "time",
+          "max_comments_per_video": 1,
+          "comment_rounds_completed": 1,
+          "search_budget_units": 9357,
+          "excluded_video_ids_count": 1826,
+          "stopped_due_to_quota": false
+        },
+        "duplicate_video_hits_skipped": 1,
+        "excluded_video_ids_count": 1826,
+        "excluded_video_hits_skipped": 2787,
+        "quota_estimate": {
+          "daily_limit": 10000,
+          "reserve": 150,
+          "usable_limit": 9850,
+          "units_used_estimate": 6038,
+          "units_remaining_estimate": 3962,
+          "units_remaining_before_reserve_estimate": 3812,
+          "endpoint_units_estimate": {
+            "search": 6000,
+            "videos": 1,
+            "commentThreads": 37
+          },
+          "endpoint_request_count": {
+            "search": 60,
+            "videos": 1,
+            "commentThreads": 37
+          },
+          "cost_reference": {
+            "search": 100,
+            "videos": 1,
+            "commentThreads": 1
+          }
+        },
+        "new_comments_downloaded_this_run": 37,
+        "stopped_due_to_quota": false
+      },
+      "video_count": 47,
+      "comment_count": 37,
+      "coverage": {
+        "api_reported_comment_count_total": 44668,
+        "downloaded_comment_count_total": 37
+      },
+      "top_videos": [
+        {
+          "video_id": "pKt5W0aBEBU",
+          "video_url": "https://www.youtube.com/watch?v=pKt5W0aBEBU",
+          "video_title": "Ким Чен Ын В ШОКЕ от России",
+          "video_channel": "Телеканал ICTV",
+          "video_published_at": "2023-09-17T11:00:38Z",
+          "video_queries": "что думают о мигрантах в россии",
+          "api_reported_comment_count": "18830",
+          "max_comments_requested": "1",
+          "estimated_downloadable_in_run": "1",
+          "downloaded_comment_count": "1",
+          "comment_page_requests": "1",
+          "terminal_reason": "hit_run_limit",
+          "download_coverage_vs_api_reported": "0.0001",
+          "download_coverage_vs_run_limit": "1.0"
+        },
+        {
+          "video_id": "r_RcJwdaDV8",
+          "video_url": "https://www.youtube.com/watch?v=r_RcJwdaDV8",
+          "video_title": "\"В России вы не герой\" | Горбачев #shorts",
+          "video_channel": "Радио Свобода",
+          "video_published_at": "2022-08-31T15:06:38Z",
+          "video_queries": "что думают о мигрантах в россии",
+          "api_reported_comment_count": "18202",
+          "max_comments_requested": "1",
+          "estimated_downloadable_in_run": "1",
+          "downloaded_comment_count": "1",
+          "comment_page_requests": "1",
+          "terminal_reason": "hit_run_limit",
+          "download_coverage_vs_api_reported": "0.0001",
+          "download_coverage_vs_run_limit": "1.0"
+        },
+        {
+          "video_id": "J1_tjseVllY",
+          "video_url": "https://www.youtube.com/watch?v=J1_tjseVllY",
+          "video_title": "Стало вдвое меньше! Мигранты Центральной Азии массово уезжают из России",
+          "video_channel": "Лига Свободных Наций",
+          "video_published_at": "2025-12-13T10:05:25Z",
+          "video_queries": "что думают о мигрантах в россии",
+          "api_reported_comment_count": "2785",
+          "max_comments_requested": "1",
+          "estimated_downloadable_in_run": "1",
+          "downloaded_comment_count": "1",
+          "comment_page_requests": "1",
+          "terminal_reason": "hit_run_limit",
+          "download_coverage_vs_api_reported": "0.0004",
+          "download_coverage_vs_run_limit": "1.0"
+        },
+        {
+          "video_id": "BK98uSGDUcQ",
+          "video_url": "https://www.youtube.com/watch?v=BK98uSGDUcQ",
+          "video_title": "Мигранты УБИЛИ Русского Парня за Футбольный Гол! ДОКОЛЕ?",
+          "video_channel": "Новости 24",
+          "video_published_at": "2025-08-23T14:36:07Z",
+          "video_queries": "мигранты в подмосковье",
+          "api_reported_comment_count": "1651",
+          "max_comments_requested": "1",
+          "estimated_downloadable_in_run": "1",
+          "downloaded_comment_count": "1",
+          "comment_page_requests": "1",
+          "terminal_reason": "hit_run_limit",
+          "download_coverage_vs_api_reported": "0.0006",
+          "download_coverage_vs_run_limit": "1.0"
+        },
+        {
+          "video_id": "o7MRoE-Fmgo",
+          "video_url": "https://www.youtube.com/watch?v=o7MRoE-Fmgo",
+          "video_title": "Россияне задумались о переезде в Беларусь",
+          "video_channel": "Настоящее Время",
+          "video_published_at": "2026-03-26T15:45:09Z",
+          "video_queries": "что думают о мигрантах в россии",
+          "api_reported_comment_count": "766",
+          "max_comments_requested": "1",
+          "estimated_downloadable_in_run": "1",
+          "downloaded_comment_count": "1",
+          "comment_page_requests": "1",
+          "terminal_reason": "hit_run_limit",
+          "download_coverage_vs_api_reported": "0.0013",
+          "download_coverage_vs_run_limit": "1.0"
+        },
+        {
+          "video_id": "ChkW0gZkTE8",
+          "video_url": "https://www.youtube.com/watch?v=ChkW0gZkTE8",
+          "video_title": "Следующая остановка – МАХАЧКАЛА! – дагестанцы воюют на стороне Украины против РФ #short",
+          "video_channel": "FREEДOM",
+          "video_published_at": "2025-06-30T16:00:33Z",
+          "video_queries": "что думают о мигрантах в россии",
+          "api_reported_comment_count": "418",
+          "max_comments_requested": "1",
+          "estimated_downloadable_in_run": "1",
+          "downloaded_comment_count": "1",
+          "comment_page_requests": "1",
+          "terminal_reason": "hit_run_limit",
+          "download_coverage_vs_api_reported": "0.0024",
+          "download_coverage_vs_run_limit": "1.0"
+        },
+        {
+          "video_id": "MZTum2QtuvE",
+          "video_url": "https://www.youtube.com/watch?v=MZTum2QtuvE",
+          "video_title": "Пьяный мигрант в Подмосковье набросился на свою...",
+          "video_channel": "Новости 24",
+          "video_published_at": "2022-07-05T07:56:15Z",
+          "video_queries": "мигранты в подмосковье",
+          "api_reported_comment_count": "306",
+          "max_comments_requested": "1",
+          "estimated_downloadable_in_run": "1",
+          "downloaded_comment_count": "1",
+          "comment_page_requests": "1",
+          "terminal_reason": "hit_run_limit",
+          "download_coverage_vs_api_reported": "0.0033",
+          "download_coverage_vs_run_limit": "1.0"
+        },
+        {
+          "video_id": "th9Oct2atYI",
+          "video_url": "https://www.youtube.com/watch?v=th9Oct2atYI",
+          "video_title": "Рейд по мигрантам",
+          "video_channel": "108 канал",
+          "video_published_at": "2026-01-28T07:44:58Z",
+          "video_queries": "мигранты в санкт-петербурге",
+          "api_reported_comment_count": "283",
+          "max_comments_requested": "1",
+          "estimated_downloadable_in_run": "1",
+          "downloaded_comment_count": "1",
+          "comment_page_requests": "1",
+          "terminal_reason": "hit_run_limit",
+          "download_coverage_vs_api_reported": "0.0035",
+          "download_coverage_vs_run_limit": "1.0"
+        },
+        {
+          "video_id": "eHYmQPcPfvI",
+          "video_url": "https://www.youtube.com/watch?v=eHYmQPcPfvI",
+          "video_title": "Жить стало сложнее: в Россию хлынул поток трудовых мигрантов",
+          "video_channel": "Телеканал ТОЛК",
+          "video_published_at": "2022-07-25T09:33:06Z",
+          "video_queries": "что думают о мигрантах в россии",
+          "api_reported_comment_count": "254",
+          "max_comments_requested": "1",
+          "estimated_downloadable_in_run": "1",
+          "downloaded_comment_count": "1",
+          "comment_page_requests": "1",
+          "terminal_reason": "hit_run_limit",
+          "download_coverage_vs_api_reported": "0.0039",
+          "download_coverage_vs_run_limit": "1.0"
+        },
+        {
+          "video_id": "aDBa9qMXSmg",
+          "video_url": "https://www.youtube.com/watch?v=aDBa9qMXSmg",
+          "video_title": "Россия запретила зачислять в школы детей мигрантов, которые не владеют русским языком",
+          "video_channel": "Настоящее Время. Азия",
+          "video_published_at": "2024-12-12T11:34:57Z",
+          "video_queries": "мигранты в школах россии",
+          "api_reported_comment_count": "219",
+          "max_comments_requested": "1",
+          "estimated_downloadable_in_run": "1",
+          "downloaded_comment_count": "1",
+          "comment_page_requests": "1",
+          "terminal_reason": "hit_run_limit",
+          "download_coverage_vs_api_reported": "0.0046",
+          "download_coverage_vs_run_limit": "1.0"
+        },
+        {
+          "video_id": "fPJrOkZMeJ0",
+          "video_url": "https://www.youtube.com/watch?v=fPJrOkZMeJ0",
+          "video_title": "😱НОВЫЕ ЗАКОНЫ ДЛЯ МИГРАНТОВ В РОССИИ ТАДЖИКИ КЫРГЫЗЫ УЗБЕКИ СРОЧНО СМОТРИТЕ 😱 🇰🇬 🇺🇿 🇹🇯 ",
+          "video_channel": "AZIZ ",
+          "video_published_at": "2026-02-15T10:53:56Z",
+          "video_queries": "мигранты в регионах россии",
+          "api_reported_comment_count": "185",
+          "max_comments_requested": "1",
+          "estimated_downloadable_in_run": "1",
+          "downloaded_comment_count": "1",
+          "comment_page_requests": "1",
+          "terminal_reason": "hit_run_limit",
+          "download_coverage_vs_api_reported": "0.0054",
+          "download_coverage_vs_run_limit": "1.0"
+        },
+        {
+          "video_id": "bDac0qF6ih8",
+          "video_url": "https://www.youtube.com/watch?v=bDac0qF6ih8",
+          "video_title": "Гордон – русскому военнопленному: Почему в Украине ненавидят русских? #shorts",
+          "video_channel": "В гостях у Гордона",
+          "video_published_at": "2023-09-24T06:30:16Z",
+          "video_queries": "что думают о мигрантах в россии",
+          "api_reported_comment_count": "157",
+          "max_comments_requested": "1",
+          "estimated_downloadable_in_run": "1",
+          "downloaded_comment_count": "1",
+          "comment_page_requests": "1",
+          "terminal_reason": "hit_run_limit",
+          "download_coverage_vs_api_reported": "0.0064",
+          "download_coverage_vs_run_limit": "1.0"
+        }
+      ],
+      "query_rows": [
+        {
+          "query": "мигранты в россии",
+          "search_pages": 2,
+          "unique_videos": 2,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "миграция в россии",
+          "search_pages": 2,
+          "unique_videos": 2,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "отношение к мигрантам в россии",
+          "search_pages": 2,
+          "unique_videos": 1,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "как россияне относятся к мигрантам",
+          "search_pages": 2,
+          "unique_videos": 1,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "образ мигрантов в россии",
+          "search_pages": 2,
+          "unique_videos": 0,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мнение россиян о мигрантах",
+          "search_pages": 2,
+          "unique_videos": 0,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "что думают о мигрантах в россии",
+          "search_pages": 2,
+          "unique_videos": 10,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты глазами россиян",
+          "search_pages": 2,
+          "unique_videos": 0,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "нелегальные мигранты россия",
+          "search_pages": 2,
+          "unique_videos": 0,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "проблема мигрантов в россии",
+          "search_pages": 2,
+          "unique_videos": 0,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "конфликты с мигрантами россия",
+          "search_pages": 2,
+          "unique_videos": 0,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "преступления мигрантов россия",
+          "search_pages": 2,
+          "unique_videos": 0,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты и преступность в россии",
+          "search_pages": 2,
+          "unique_videos": 0,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "депортация мигрантов россия",
+          "search_pages": 2,
+          "unique_videos": 0,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты и закон в россии",
+          "search_pages": 2,
+          "unique_videos": 0,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты и работа в россии",
+          "search_pages": 2,
+          "unique_videos": 0,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "трудовые мигранты в россии",
+          "search_pages": 2,
+          "unique_videos": 3,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты и рынок труда россия",
+          "search_pages": 2,
+          "unique_videos": 4,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты в москве",
+          "search_pages": 2,
+          "unique_videos": 1,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты в санкт-петербурге",
+          "search_pages": 2,
+          "unique_videos": 1,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты в подмосковье",
+          "search_pages": 2,
+          "unique_videos": 6,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты в регионах россии",
+          "search_pages": 2,
+          "unique_videos": 1,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты в школах россии",
+          "search_pages": 2,
+          "unique_videos": 2,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "дети мигрантов в россии",
+          "search_pages": 2,
+          "unique_videos": 1,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "мигранты и русский язык в россии",
+          "search_pages": 2,
+          "unique_videos": 1,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "адаптация мигрантов в россии",
+          "search_pages": 2,
+          "unique_videos": 2,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "интеграция мигрантов в россии",
+          "search_pages": 2,
+          "unique_videos": 3,
+          "duplicate_hits": 1
+        },
+        {
+          "query": "межнациональные конфликты россия мигранты",
+          "search_pages": 2,
+          "unique_videos": 1,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "бытовые конфликты с мигрантами россия",
+          "search_pages": 2,
+          "unique_videos": 2,
+          "duplicate_hits": 0
+        },
+        {
+          "query": "новости про мигрантов россия",
+          "search_pages": 2,
+          "unique_videos": 5,
+          "duplicate_hits": 0
+        }
+      ],
+      "update_token": "1776104027529677231"
     },
     {
       "directory": "output_2023_2026",

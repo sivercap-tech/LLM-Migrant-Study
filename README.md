@@ -40,133 +40,6 @@ export YOUTUBE_API_KEY="ваш_ключ"
 python3 youtube_migration_parser.py
 ```
 
-Классификация уже найденных видео через LLM:
-
-```bash
-export OPENAI_API_KEY="ваш_ключ"
-python3 classify_youtube_videos.py \
-  --provider openai \
-  --input output_2023_2026/youtube_videos.csv \
-  --output output_2023_2026/youtube_videos_classified.csv
-```
-
-Для больших прогонов через OpenAI выгоднее использовать Batch API со скидкой:
-
-```bash
-export OPENAI_API_KEY="ваш_ключ"
-python3 classify_youtube_videos.py \
-  --provider openai \
-  --mode batch-prepare \
-  --input output_2023_2026/youtube_videos.csv \
-  --batch-input output_2023_2026/openai_batch_requests.jsonl \
-  --batch-metadata output_2023_2026/openai_batch_requests.meta.json
-```
-
-```bash
-python3 classify_youtube_videos.py \
-  --provider openai \
-  --mode batch-submit \
-  --batch-input output_2023_2026/openai_batch_requests.jsonl
-```
-
-После этого скрипт выведет `batch id`. Проверка статуса:
-
-```bash
-python3 classify_youtube_videos.py \
-  --provider openai \
-  --mode batch-status \
-  --batch-id batch_...
-```
-
-Когда batch завершится, скачивание результатов:
-
-```bash
-python3 classify_youtube_videos.py \
-  --provider openai \
-  --mode batch-download \
-  --batch-id batch_... \
-  --batch-metadata output_2023_2026/openai_batch_requests.meta.json \
-  --output output_2023_2026/youtube_videos_classified_openai_batch.csv
-```
-
-Аналогичный batch workflow теперь доступен и для Gemini, и для Anthropic:
-
-```bash
-export GEMINI_API_KEY="ваш_ключ"
-python3 classify_youtube_videos.py \
-  --provider gemini \
-  --mode batch-prepare \
-  --input output_2023_2026/youtube_videos.csv \
-  --batch-input output_2023_2026/gemini_batch_requests.jsonl \
-  --batch-metadata output_2023_2026/gemini_batch_requests.meta.json
-
-python3 classify_youtube_videos.py \
-  --provider gemini \
-  --mode batch-submit \
-  --batch-input output_2023_2026/gemini_batch_requests.jsonl
-
-python3 classify_youtube_videos.py \
-  --provider gemini \
-  --mode batch-status \
-  --batch-id batches/...
-
-python3 classify_youtube_videos.py \
-  --provider gemini \
-  --mode batch-download \
-  --batch-id batches/... \
-  --batch-metadata output_2023_2026/gemini_batch_requests.meta.json \
-  --output output_2023_2026/youtube_videos_classified_gemini_batch.csv
-```
-
-```bash
-export ANTHROPIC_API_KEY="ваш_ключ"
-python3 classify_youtube_videos.py \
-  --provider anthropic \
-  --mode batch-prepare \
-  --input output_2023_2026/youtube_videos.csv \
-  --batch-input output_2023_2026/anthropic_batch_requests.jsonl \
-  --batch-metadata output_2023_2026/anthropic_batch_requests.meta.json
-
-python3 classify_youtube_videos.py \
-  --provider anthropic \
-  --mode batch-submit \
-  --batch-input output_2023_2026/anthropic_batch_requests.jsonl
-
-python3 classify_youtube_videos.py \
-  --provider anthropic \
-  --mode batch-status \
-  --batch-id msgbatch_...
-
-python3 classify_youtube_videos.py \
-  --provider anthropic \
-  --mode batch-download \
-  --batch-id msgbatch_... \
-  --batch-metadata output_2023_2026/anthropic_batch_requests.meta.json \
-  --output output_2023_2026/youtube_videos_classified_anthropic_batch.csv
-```
-
-Для сравнения моделей можно запускать тот же скрипт через Gemini и Anthropic:
-
-```bash
-export GEMINI_API_KEY="ваш_ключ"
-python3 classify_youtube_videos.py \
-  --provider gemini \
-  --model gemini-2.5-flash \
-  --input output_2023_2026/youtube_videos.csv \
-  --output output_2023_2026/youtube_videos_classified_gemini.csv
-```
-
-```bash
-export ANTHROPIC_API_KEY="ваш_ключ"
-python3 classify_youtube_videos.py \
-  --provider anthropic \
-  --model claude-3-5-haiku-latest \
-  --input output_2023_2026/youtube_videos.csv \
-  --output output_2023_2026/youtube_videos_classified_anthropic.csv
-```
-
-Скрипт отправляет `title`, `description`, `channel_title` и другие метаданные в модель, валидирует строгий JSON-ответ и добавляет поля `provider`, `model`, `decision`, `passes_filter`, `topic_centrality`, `geographic_context`, `object_type`, `confidence`, `reason`.
-
 Режим под квоту `10 000`, когда нужно собрать максимум видео и комментариев:
 
 ```bash
@@ -298,3 +171,131 @@ python3 youtube_migration_parser.py \
 
 - Скрипт использует только публичные данные YouTube API.
 - Квота считается оценочно по стандартной стоимости методов: `search=100`, `videos=1`, `commentThreads=1`.
+
+## LLM-filter
+Классификация уже найденных видео через LLM:
+
+```bash
+export OPENAI_API_KEY="ваш_ключ"
+python3 classify_youtube_videos.py \
+  --provider openai \
+  --input output_2023_2026/youtube_videos.csv \
+  --output output_2023_2026/youtube_videos_classified.csv
+```
+
+Для больших прогонов через OpenAI выгоднее использовать Batch API со скидкой:
+
+```bash
+export OPENAI_API_KEY="ваш_ключ"
+python3 classify_youtube_videos.py \
+  --provider openai \
+  --mode batch-prepare \
+  --input output_2023_2026/youtube_videos.csv \
+  --batch-input output_2023_2026/openai_batch_requests.jsonl \
+  --batch-metadata output_2023_2026/openai_batch_requests.meta.json
+```
+
+```bash
+python3 classify_youtube_videos.py \
+  --provider openai \
+  --mode batch-submit \
+  --batch-input output_2023_2026/openai_batch_requests.jsonl
+```
+
+После этого скрипт выведет `batch id`. Проверка статуса:
+
+```bash
+python3 classify_youtube_videos.py \
+  --provider openai \
+  --mode batch-status \
+  --batch-id batch_...
+```
+
+Когда batch завершится, скачивание результатов:
+
+```bash
+python3 classify_youtube_videos.py \
+  --provider openai \
+  --mode batch-download \
+  --batch-id batch_... \
+  --batch-metadata output_2023_2026/openai_batch_requests.meta.json \
+  --output output_2023_2026/youtube_videos_classified_openai_batch.csv
+```
+
+Аналогичный batch workflow теперь доступен и для Gemini, и для Anthropic:
+
+```bash
+export GEMINI_API_KEY="ваш_ключ"
+python3 classify_youtube_videos.py \
+  --provider gemini \
+  --mode batch-prepare \
+  --input output_2023_2026/youtube_videos.csv \
+  --batch-input output_2023_2026/gemini_batch_requests.jsonl \
+  --batch-metadata output_2023_2026/gemini_batch_requests.meta.json
+
+python3 classify_youtube_videos.py \
+  --provider gemini \
+  --mode batch-submit \
+  --batch-input output_2023_2026/gemini_batch_requests.jsonl
+
+python3 classify_youtube_videos.py \
+  --provider gemini \
+  --mode batch-status \
+  --batch-id batches/...
+
+python3 classify_youtube_videos.py \
+  --provider gemini \
+  --mode batch-download \
+  --batch-id batches/... \
+  --batch-metadata output_2023_2026/gemini_batch_requests.meta.json \
+  --output output_2023_2026/youtube_videos_classified_gemini_batch.csv
+```
+
+```bash
+export ANTHROPIC_API_KEY="ваш_ключ"
+python3 classify_youtube_videos.py \
+  --provider anthropic \
+  --mode batch-prepare \
+  --input output_2023_2026/youtube_videos.csv \
+  --batch-input output_2023_2026/anthropic_batch_requests.jsonl \
+  --batch-metadata output_2023_2026/anthropic_batch_requests.meta.json
+
+python3 classify_youtube_videos.py \
+  --provider anthropic \
+  --mode batch-submit \
+  --batch-input output_2023_2026/anthropic_batch_requests.jsonl
+
+python3 classify_youtube_videos.py \
+  --provider anthropic \
+  --mode batch-status \
+  --batch-id msgbatch_...
+
+python3 classify_youtube_videos.py \
+  --provider anthropic \
+  --mode batch-download \
+  --batch-id msgbatch_... \
+  --batch-metadata output_2023_2026/anthropic_batch_requests.meta.json \
+  --output output_2023_2026/youtube_videos_classified_anthropic_batch.csv
+```
+
+Для сравнения моделей можно запускать тот же скрипт через Gemini и Anthropic:
+
+```bash
+export GEMINI_API_KEY="ваш_ключ"
+python3 classify_youtube_videos.py \
+  --provider gemini \
+  --model gemini-2.5-flash \
+  --input output_2023_2026/youtube_videos.csv \
+  --output output_2023_2026/youtube_videos_classified_gemini.csv
+```
+
+```bash
+export ANTHROPIC_API_KEY="ваш_ключ"
+python3 classify_youtube_videos.py \
+  --provider anthropic \
+  --model claude-3-5-haiku-latest \
+  --input output_2023_2026/youtube_videos.csv \
+  --output output_2023_2026/youtube_videos_classified_anthropic.csv
+```
+
+Скрипт отправляет `title`, `description`, `channel_title` и другие метаданные в модель, валидирует строгий JSON-ответ и добавляет поля `provider`, `model`, `decision`, `passes_filter`, `topic_centrality`, `geographic_context`, `object_type`, `confidence`, `reason`.
